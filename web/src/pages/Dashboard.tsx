@@ -2,7 +2,7 @@ import { Button, Checkbox, Group, Paper, Text, Title, Anchor } from '@mantine/co
 import { BarChart } from '@mantine/charts'
 import { IconPlus, IconArrowRight } from '@tabler/icons-react'
 import { Link } from 'react-router'
-import { activities, companyById, contactById, customers, daysUntil, deals, fullName, leads, money, nextOrderDue, pipelineTrend, stageById, stages } from '../data/mock'
+import { NOW, activities, companyById, contactById, customers, daysUntil, deals, fullName, leads, money, nextOrderDue, pipelineTrend, stageById, stages } from '../data/mock'
 import { ContactAvatar, HealthDot, OwnerAvatar, PageHeader, Stat, relative, shortDate } from '../components/ui'
 import { ActivityIcon } from './Activities'
 
@@ -13,7 +13,7 @@ export default function Dashboard() {
   const wonThisMonth = deals.filter((d) => d.stageId === 's5' && d.closeDate.startsWith('2026-11')).reduce((s, d) => s + d.amount, 0)
   const closingSoon = open.filter((d) => d.closeDate <= '2026-11-30').sort((a, b) => a.closeDate.localeCompare(b.closeDate))
   const tasks = activities.filter((a) => a.type === 'task' && !a.done).sort((a, b) => (a.dueAt ?? '').localeCompare(b.dueAt ?? ''))
-  const recent = activities.filter((a) => a.type !== 'task').sort((a, b) => b.at.localeCompare(a.at)).slice(0, 6)
+  const recent = activities.filter((a) => a.type !== 'task' && a.at <= NOW).sort((a, b) => b.at.localeCompare(a.at)).slice(0, 6)
   const newLeads = leads.filter((l) => l.status === 'New').length
 
   return (

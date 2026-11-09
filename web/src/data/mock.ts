@@ -66,6 +66,9 @@ export const contacts: Contact[] = [
 
 export type ActivityType = 'note' | 'call' | 'email' | 'meeting' | 'task' | 'stage'
 
+export type ActivityOutcome = 'Connected' | 'No answer' | 'Voicemail' | 'Rescheduled'
+export type TaskPriority = 'High' | 'Normal' | 'Low'
+export type EmailStatus = 'Sent' | 'Opened' | 'Replied' | 'Bounced'
 export type Activity = {
   id: string
   type: ActivityType
@@ -78,23 +81,52 @@ export type Activity = {
   ownerId: string
   done?: boolean
   dueAt?: string
+  priority?: TaskPriority
+  outcome?: ActivityOutcome
+  durationMin?: number
+  attendees?: string[]
+  location?: string
+  emailStatus?: EmailStatus
+  fromStage?: string
+  toStage?: string
+  nextStep?: string
 }
 
 export const activities: Activity[] = [
-  { id: 'a1', type: 'meeting', subject: 'Renewal planning call', body: 'Agreed to expand to 3 more clinics in Q1. Anindya wants volume pricing before 20 Nov.', at: '2026-11-09T09:30:00', contactId: 'p3', companyId: 'c3', dealId: 'd3', ownerId: 'u3' },
-  { id: 'a2', type: 'email', subject: 'Sent revised proposal v2', body: 'Attached updated SOW and pricing for the Rotterdam hub.', at: '2026-11-08T16:10:00', contactId: 'p1', companyId: 'c1', dealId: 'd1', ownerId: 'u1' },
-  { id: 'a3', type: 'call', subject: 'Discovery call with Tom', body: 'Budget confirmed for FY27. Needs board sign-off in December.', at: '2026-11-08T11:00:00', contactId: 'p8', companyId: 'c8', dealId: 'd7', ownerId: 'u4' },
-  { id: 'a4', type: 'stage', subject: 'Moved to Proposal', at: '2026-11-07T15:40:00', companyId: 'c2', dealId: 'd2', ownerId: 'u2' },
+  { id: 'a1', type: 'meeting', subject: 'Renewal planning call', body: 'Agreed to expand to 3 more clinics in Q1. Anindya wants volume pricing before 20 Nov.', at: '2026-11-09T09:30:00', durationMin: 45, attendees: ['Anindya Putri', 'Dewi Lestari'], location: 'Google Meet', contactId: 'p3', companyId: 'c3', dealId: 'd3', ownerId: 'u3', nextStep: 'Send volume pricing by 12 Nov' },
+  { id: 'a17', type: 'call', subject: 'Check-in with Reza about the two new leads', body: 'Arif is ready for a demo next week. Yuki still comparing options.', at: '2026-11-09T08:45:00', durationMin: 12, outcome: 'Connected', contactId: 'pp1', companyId: 'pc2', ownerId: 'u3', nextStep: 'Book demo with Arif' },
+  { id: 'a18', type: 'email', subject: 'Commission statement for October', body: 'Sent the October statement: $2,400 owed on Pinecrest and Oakline.', at: '2026-11-09T10:20:00', emailStatus: 'Sent', contactId: 'pp2', companyId: 'pc1', ownerId: 'u2' },
+  { id: 'a2', type: 'email', subject: 'Sent revised proposal v2', body: 'Attached updated SOW and pricing for the Rotterdam hub.', at: '2026-11-08T16:10:00', emailStatus: 'Opened', contactId: 'p1', companyId: 'c1', dealId: 'd1', ownerId: 'u1', nextStep: 'Follow up Wednesday if no reply' },
+  { id: 'a3', type: 'call', subject: 'Discovery call with Tom', body: 'Budget confirmed for FY27. Needs board sign-off in December.', at: '2026-11-08T11:00:00', durationMin: 28, outcome: 'Connected', contactId: 'p8', companyId: 'c8', dealId: 'd7', ownerId: 'u4', nextStep: 'Share reference customer in energy' },
+  { id: 'a4', type: 'stage', subject: 'Moved to Proposal', at: '2026-11-07T15:40:00', fromStage: 'Discovery', toStage: 'Proposal', companyId: 'c2', dealId: 'd2', ownerId: 'u2' },
   { id: 'a5', type: 'note', subject: 'Competitor mentioned', body: 'Rui said they are also looking at a local vendor. Price-sensitive but values support.', at: '2026-11-07T14:20:00', contactId: 'p2', companyId: 'c2', dealId: 'd2', ownerId: 'u2' },
-  { id: 'a6', type: 'task', subject: 'Send volume pricing to Kinara', at: '2026-11-09T09:45:00', dueAt: '2026-11-12', contactId: 'p3', companyId: 'c3', dealId: 'd3', ownerId: 'u3', done: false },
-  { id: 'a7', type: 'task', subject: 'Follow up on proposal v2', at: '2026-11-08T16:15:00', dueAt: '2026-11-11', contactId: 'p1', companyId: 'c1', dealId: 'd1', ownerId: 'u1', done: false },
-  { id: 'a8', type: 'task', subject: 'Book site visit at Bluefin', at: '2026-11-04T10:00:00', dueAt: '2026-11-09', contactId: 'p4', companyId: 'c4', dealId: 'd4', ownerId: 'u1', done: false },
-  { id: 'a9', type: 'task', subject: 'Prepare webinar follow-up list', at: '2026-11-02T13:00:00', dueAt: '2026-11-10', ownerId: 'u4', done: true },
-  { id: 'a10', type: 'email', subject: 'Intro from Hana', body: 'Hana introduced us to the board chair. Meeting requested for late November.', at: '2026-11-06T08:50:00', contactId: 'p7', companyId: 'c7', dealId: 'd6', ownerId: 'u2' },
-  { id: 'a11', type: 'call', subject: 'Left voicemail', at: '2026-11-05T17:05:00', contactId: 'p9', companyId: 'c8', ownerId: 'u4' },
+  { id: 'a23', type: 'stage', subject: 'Moved to Negotiation', at: '2026-11-06T17:30:00', fromStage: 'Proposal', toStage: 'Negotiation', companyId: 'c1', dealId: 'd1', ownerId: 'u1' },
+  { id: 'a10', type: 'email', subject: 'Intro from Hana', body: 'Hana introduced us to the board chair. Meeting requested for late November.', at: '2026-11-06T08:50:00', emailStatus: 'Replied', contactId: 'p7', companyId: 'c7', dealId: 'd6', ownerId: 'u2' },
+  { id: 'a11', type: 'call', subject: 'Left voicemail', at: '2026-11-05T17:05:00', outcome: 'Voicemail', contactId: 'p9', companyId: 'c8', dealId: 'd11', ownerId: 'u4' },
+  { id: 'a24', type: 'call', subject: 'Tried Wei about the site visit', at: '2026-11-05T10:10:00', outcome: 'No answer', contactId: 'p4', companyId: 'c4', dealId: 'd4', ownerId: 'u1' },
+  { id: 'a22', type: 'meeting', subject: 'Payment plan discussion', body: 'Bagus asked for 30 more days on INV-2026-0611. Said budget freeze lifts in December.', at: '2026-11-04T14:00:00', durationMin: 30, attendees: ['Bagus Santoso'], location: 'Phone', contactId: 'p6', companyId: 'c6', ownerId: 'u3', nextStep: 'Confirm payment plan in writing' },
   { id: 'a12', type: 'note', subject: 'Inbound from pricing page', body: 'Filled the demo form. Studio of 12 people, wants to replace a spreadsheet.', at: '2026-11-03T10:12:00', contactId: 'p10', ownerId: 'u2' },
-  { id: 'a13', type: 'task', subject: 'Call Grace about webinar questions', at: '2026-11-02T15:30:00', dueAt: '2026-11-08', contactId: 'p5', companyId: 'c5', ownerId: 'u4', done: false },
+  { id: 'a25', type: 'email', subject: 'Webinar recording and slides', body: 'Sent to the 38 attendees with a link to book a call.', at: '2026-11-03T09:00:00', emailStatus: 'Opened', contactId: 'p5', companyId: 'c5', dealId: 'd5', ownerId: 'u4' },
+
+  { id: 'a14', type: 'meeting', subject: 'Demo for Pinecrest leadership team', at: '2026-11-09T14:00:00', durationMin: 60, attendees: ['Hana Kimura', 'Board chair'], location: 'Google Meet', contactId: 'p7', companyId: 'c7', dealId: 'd6', ownerId: 'u2' },
+  { id: 'a15', type: 'meeting', subject: 'Quarterly business review', at: '2026-11-12T10:00:00', durationMin: 60, attendees: ['Sofie de Vries', 'Jonas Eriksen'], location: 'Rotterdam office', contactId: 'p1', companyId: 'c1', ownerId: 'u1' },
+  { id: 'a16', type: 'meeting', subject: 'Site visit, Bluefin plant', at: '2026-11-13T09:00:00', durationMin: 180, attendees: ['Wei Tan'], location: 'Jurong, Singapore', contactId: 'p4', companyId: 'c4', dealId: 'd4', ownerId: 'u1' },
+
+  { id: 'a8', type: 'task', subject: 'Book site visit at Bluefin', at: '2026-11-04T10:00:00', dueAt: '2026-11-09', priority: 'High', contactId: 'p4', companyId: 'c4', dealId: 'd4', ownerId: 'u1', done: false },
+  { id: 'a19', type: 'task', subject: 'Send payment reminder to Terra Agro', body: 'INV-2026-0611, $18,500, 84 days overdue.', at: '2026-11-06T09:00:00', dueAt: '2026-11-09', priority: 'High', contactId: 'p6', companyId: 'c6', ownerId: 'u3', done: false },
+  { id: 'a13', type: 'task', subject: 'Call Grace about webinar questions', at: '2026-11-02T15:30:00', dueAt: '2026-11-08', priority: 'Normal', contactId: 'p5', companyId: 'c5', dealId: 'd5', ownerId: 'u4', done: false },
+  { id: 'a20', type: 'task', subject: 'Update November forecast', at: '2026-11-03T09:00:00', dueAt: '2026-11-06', priority: 'Normal', ownerId: 'u1', done: false },
+  { id: 'a7', type: 'task', subject: 'Follow up on proposal v2', at: '2026-11-08T16:15:00', dueAt: '2026-11-11', priority: 'Normal', contactId: 'p1', companyId: 'c1', dealId: 'd1', ownerId: 'u1', done: false },
+  { id: 'a6', type: 'task', subject: 'Send volume pricing to Kinara', at: '2026-11-09T09:45:00', dueAt: '2026-11-12', priority: 'High', contactId: 'p3', companyId: 'c3', dealId: 'd3', ownerId: 'u3', done: false },
+  { id: 'a21', type: 'task', subject: 'Call Harbor & Vale about reordering', body: 'Usually orders every 75 days, now 48 days late.', at: '2026-11-07T11:00:00', dueAt: '2026-11-13', priority: 'Normal', contactId: 'p2', companyId: 'c2', ownerId: 'u2', done: false },
+  { id: 'a26', type: 'task', subject: 'Share energy reference customer with Tom', at: '2026-11-08T11:30:00', dueAt: '2026-11-16', priority: 'Low', contactId: 'p8', companyId: 'c8', dealId: 'd7', ownerId: 'u4', done: false },
+  { id: 'a9', type: 'task', subject: 'Prepare webinar follow-up list', at: '2026-11-02T13:00:00', dueAt: '2026-11-10', priority: 'Normal', ownerId: 'u4', done: true },
+  { id: 'a27', type: 'task', subject: 'Send October commission statement', at: '2026-11-05T09:00:00', dueAt: '2026-11-09', priority: 'Normal', contactId: 'pp2', companyId: 'pc1', ownerId: 'u2', done: true },
 ]
+
+export const TODAY = '2026-11-09'
+export const NOW = '2026-11-09T12:00:00'
+export const activityById = (id: string | null | undefined) => activities.find((a) => a.id === id)
 
 export type Stage = { id: string; name: string; probability: number; kind: 'open' | 'won' | 'lost' }
 

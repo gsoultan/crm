@@ -399,16 +399,16 @@ export default function Activities() {
 
             <Tabs.Panel value="tasks">
               <Paper>
-                <Table.ScrollContainer minWidth={760}>
-                <Table>
+                <Table.ScrollContainer minWidth={700}>
+                <Table layout="fixed">
                   <Table.Thead>
                     <Table.Tr>
-                      <Table.Th w={36} />
+                      <Table.Th w={44} />
                       <Table.Th>Task</Table.Th>
-                      <Table.Th>Related to</Table.Th>
-                      <Table.Th>Priority</Table.Th>
-                      <Table.Th>Due</Table.Th>
-                      <Table.Th>Owner</Table.Th>
+                      <Table.Th w={220}>Related to</Table.Th>
+                      <Table.Th w={90}>Priority</Table.Th>
+                      <Table.Th w={110}>Due</Table.Th>
+                      <Table.Th w={64}>Owner</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -757,7 +757,7 @@ function TaskGroup({ g, selected, toggle, onSelect }: { g: { title: string; tone
                 {t.subject}
               </Text>
               {t.body && (
-                <Text size="xs" c="dimmed" truncate maw={360}>
+                <Text size="xs" c="dimmed" truncate>
                   {t.body}
                 </Text>
               )}
@@ -766,7 +766,7 @@ function TaskGroup({ g, selected, toggle, onSelect }: { g: { title: string; tone
               {c || co ? (
                 <>
                   <Text size="sm">{c ? fullName(c) : co?.name}</Text>
-                  <Text size="xs" c="dimmed" truncate maw={220}>
+                  <Text size="xs" c="dimmed" truncate>
                     {c && co ? co.name : ''}
                     {d ? `${c && co ? ' · ' : ''}${d.name}` : ''}
                   </Text>

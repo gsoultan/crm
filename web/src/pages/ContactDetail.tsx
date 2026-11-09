@@ -1,7 +1,7 @@
 import { Anchor, Badge, Breadcrumbs, Button, DataList, Group, Menu, Paper, Tabs, Text, Title, Textarea, SegmentedControl, ActionIcon } from '@mantine/core'
 import { IconDots, IconMail, IconPhone, IconPlus, IconCalendarPlus, IconPencil } from '@tabler/icons-react'
 import { Link, useParams } from 'react-router'
-import { activities, companyById, contactById, deals, fullName, money, stageById } from '../data/mock'
+import { activities, companyById, contactById, customerByCompany, deals, fullName, money, stageById } from '../data/mock'
 import { ContactAvatar, HealthDot, LifecycleBadge, OwnerAvatar, ScoreBar, longDate, relative, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
 
@@ -12,6 +12,7 @@ export default function ContactDetail() {
   const co = companyById(c.companyId)
   const items = activities.filter((a) => a.contactId === c.id)
   const myDeals = deals.filter((d) => d.contactId === c.id)
+  const cu = customerByCompany(c.companyId)
 
   return (
     <>
@@ -111,6 +112,20 @@ export default function ContactDetail() {
               <Field label="Created">{longDate('2026-03-14')}</Field>
             </DataList>
           </Paper>
+
+          {cu && (
+            <Link to={`/customers/${cu.id}`} className="block rounded-lg border border-spruce-100 bg-spruce-50 px-4 py-3 hover:border-spruce-500">
+              <Group justify="space-between">
+                <Text size="sm" fw={600}>
+                  Customer account
+                </Text>
+                <Badge color={cu.health >= 70 ? 'spruce' : cu.health >= 40 ? 'amber' : 'red'}>Health {cu.health}</Badge>
+              </Group>
+              <Text size="xs" c="dimmed" mt={2}>
+                {cu.plan} · {cu.seats} seats · {money(cu.arr)} ARR · renews {shortDate(cu.renewalAt)}
+              </Text>
+            </Link>
+          )}
 
           <Paper p="md">
             <Group justify="space-between" mb="sm">

@@ -19,6 +19,7 @@ npm run build      # type-check + production build
 | Core | `/` | Home: open pipeline, tasks, deals closing this month, pipeline movement |
 | Core | `/contacts`, `/contacts/:id` | Contact list with saved views, filters, bulk actions; contact record with timeline and deals |
 | Core | `/companies`, `/companies/:id` | Company list (table or cards); account page with people, deals and timeline |
+| Core | `/customers`, `/customers/:id` | Existing customers: health, ARR, renewals and at-risk views; customer record with usage trend, success plan, support tickets and expansion deals |
 | Core | `/activities` | Team timeline, tasks grouped by due date, quick log |
 | Sales | `/leads` | Lead inbox, fit + engagement score, convert to contact, company and deal |
 | Sales | `/pipeline` | Drag-and-drop Kanban board with weighted totals, table view, deal side panel |

@@ -2,7 +2,7 @@ import { Button, Checkbox, Group, Paper, Text, Title, Anchor } from '@mantine/co
 import { BarChart } from '@mantine/charts'
 import { IconPlus, IconArrowRight } from '@tabler/icons-react'
 import { Link } from 'react-router'
-import { activities, companyById, contactById, deals, fullName, leads, money, pipelineTrend, stageById, stages } from '../data/mock'
+import { activities, companyById, contactById, customers, deals, fullName, leads, money, pipelineTrend, stageById, stages } from '../data/mock'
 import { ContactAvatar, HealthDot, OwnerAvatar, PageHeader, Stat, relative, shortDate } from '../components/ui'
 import { ActivityIcon } from './Activities'
 
@@ -176,15 +176,15 @@ export default function Dashboard() {
               </Link>
             )
           })}
-        <div className="rounded-lg border border-dashed border-line px-4 py-3">
+        <Link to="/customers" className="rounded-lg border border-amber-signal/40 bg-amber-signal/5 px-4 py-3 hover:border-amber-signal">
           <Text size="xs" c="dimmed">
-            Won this quarter
+            Renewals in 90 days
           </Text>
-          <div className="tabular mt-0.5 text-lg font-semibold text-spruce-700">{money(deals.filter((d) => d.stageId === 's5').reduce((x, d) => x + d.amount, 0))}</div>
+          <div className="tabular mt-0.5 text-lg font-semibold">{money(customers.filter((c) => c.renewalAt <= '2027-02-07').reduce((x, c) => x + c.arr, 0))}</div>
           <Text size="xs" c="dimmed">
-            2 deals
+            {customers.filter((c) => c.renewalAt <= '2027-02-07').length} accounts · 1 at risk
           </Text>
-        </div>
+        </Link>
       </div>
     </>
   )

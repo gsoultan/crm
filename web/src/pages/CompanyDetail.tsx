@@ -1,7 +1,7 @@
 import { Anchor, Breadcrumbs, Button, DataList, Group, Paper, Tabs, Text, Title, Table } from '@mantine/core'
-import { IconPlus, IconWorld } from '@tabler/icons-react'
+import { IconHeartHandshake, IconPlus, IconWorld } from '@tabler/icons-react'
 import { Link, useParams } from 'react-router'
-import { activities, companyById, contacts, deals, fullName, money, stageById } from '../data/mock'
+import { activities, companyById, contacts, customerByCompany, deals, fullName, money, stageById } from '../data/mock'
 import { ContactAvatar, HealthDot, LifecycleBadge, OwnerAvatar, Stat, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
 import { CompanyMark } from './Companies'
@@ -15,6 +15,7 @@ export default function CompanyDetail() {
   const open = myDeals.filter((d) => stageById(d.stageId).kind === 'open')
   const won = myDeals.filter((d) => d.stageId === 's5')
   const items = activities.filter((a) => a.companyId === co.id)
+  const cu = customerByCompany(co.id)
 
   return (
     <>
@@ -39,6 +40,11 @@ export default function CompanyDetail() {
           <Button variant="default" leftSection={<IconWorld size={16} />} component="a" href={`https://${co.domain}`} target="_blank">
             {co.domain}
           </Button>
+          {cu && (
+            <Button variant="light" leftSection={<IconHeartHandshake size={16} />} component={Link} to={`/customers/${cu.id}`}>
+              Customer record
+            </Button>
+          )}
           <Button leftSection={<IconPlus size={16} />}>New deal</Button>
         </Group>
       </div>

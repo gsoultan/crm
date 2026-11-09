@@ -16,6 +16,7 @@ import {
   IconUsers,
   IconColumns3,
   IconHelp,
+  IconHeartHandshake,
 } from '@tabler/icons-react'
 import { NavLink as RouterNavLink, Outlet, useNavigate } from 'react-router'
 import { companies, contacts, deals, fullName } from '../data/mock'
@@ -30,6 +31,7 @@ const nav: NavGroup[] = [
       { label: 'Home', to: '/', icon: IconLayoutDashboard },
       { label: 'Contacts', to: '/contacts', icon: IconUsers },
       { label: 'Companies', to: '/companies', icon: IconBuilding },
+      { label: 'Customers', to: '/customers', icon: IconHeartHandshake, badge: 1 },
       { label: 'Activities', to: '/activities', icon: IconListCheck, badge: 4 },
     ],
   },
@@ -194,7 +196,7 @@ export default function Shell() {
               </Badge>
             </Group>
             <Text size="xs" c="dimmed">
-              4 tasks due · 2 deals closing · 3 new leads waiting
+              4 tasks due · 2 renewals this month · 1 account at risk
             </Text>
           </div>
         </div>

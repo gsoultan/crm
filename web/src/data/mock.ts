@@ -251,3 +251,70 @@ export const quoteTotals = (q: Quote) => {
   const tax = subtotal * (q.taxRate / 100)
   return { subtotal, tax, total: subtotal + tax }
 }
+
+// ---- Existing customers (post-sale) ----
+
+export type Customer = {
+  id: string
+  companyId: string
+  plan: 'Starter' | 'Team' | 'Business' | 'Enterprise'
+  seats: number
+  arr: number
+  startedAt: string
+  renewalAt: string
+  csmId: string
+  health: number // 0-100
+  trend: 'up' | 'flat' | 'down'
+  usage: number // % of seats active last 30 days
+  nps: number | null
+  openTickets: number
+  stage: 'Onboarding' | 'Adopting' | 'Established' | 'Renewal due' | 'At risk'
+}
+
+export const customers: Customer[] = [
+  { id: 'cu1', companyId: 'c3', plan: 'Business', seats: 160, arr: 86400, startedAt: '2025-01-15', renewalAt: '2027-01-15', csmId: 'u3', health: 88, trend: 'up', usage: 91, nps: 9, openTickets: 1, stage: 'Established' },
+  { id: 'cu2', companyId: 'c1', plan: 'Business', seats: 85, arr: 45900, startedAt: '2024-11-28', renewalAt: '2026-11-28', csmId: 'u1', health: 74, trend: 'flat', usage: 78, nps: 8, openTickets: 2, stage: 'Renewal due' },
+  { id: 'cu3', companyId: 'c8', plan: 'Team', seats: 40, arr: 21600, startedAt: '2025-12-01', renewalAt: '2026-12-01', csmId: 'u4', health: 81, trend: 'up', usage: 85, nps: 9, openTickets: 0, stage: 'Renewal due' },
+  { id: 'cu4', companyId: 'c6', plan: 'Team', seats: 30, arr: 16200, startedAt: '2025-10-21', renewalAt: '2026-10-21', csmId: 'u3', health: 22, trend: 'down', usage: 12, nps: 4, openTickets: 3, stage: 'At risk' },
+  { id: 'cu5', companyId: 'c7', plan: 'Starter', seats: 15, arr: 8100, startedAt: '2026-09-02', renewalAt: '2027-09-02', csmId: 'u2', health: 63, trend: 'flat', usage: 60, nps: null, openTickets: 1, stage: 'Onboarding' },
+  { id: 'cu6', companyId: 'c2', plan: 'Starter', seats: 12, arr: 6480, startedAt: '2026-06-10', renewalAt: '2027-06-10', csmId: 'u2', health: 70, trend: 'up', usage: 83, nps: 7, openTickets: 0, stage: 'Adopting' },
+]
+
+export type Ticket = { id: string; customerId: string; subject: string; priority: 'Low' | 'Normal' | 'High'; status: 'Open' | 'Waiting on customer' | 'Resolved'; openedAt: string }
+
+export const tickets: Ticket[] = [
+  { id: 't1', customerId: 'cu4', subject: 'Login fails for SSO users', priority: 'High', status: 'Open', openedAt: '2026-11-06' },
+  { id: 't2', customerId: 'cu4', subject: 'Export to Excel missing columns', priority: 'Normal', status: 'Waiting on customer', openedAt: '2026-11-03' },
+  { id: 't3', customerId: 'cu4', subject: 'Request: Bahasa Indonesia UI', priority: 'Low', status: 'Open', openedAt: '2026-10-28' },
+  { id: 't4', customerId: 'cu2', subject: 'Slow pipeline board with 400+ deals', priority: 'High', status: 'Open', openedAt: '2026-11-07' },
+  { id: 't5', customerId: 'cu2', subject: 'Add two more admin seats', priority: 'Normal', status: 'Resolved', openedAt: '2026-11-01' },
+  { id: 't6', customerId: 'cu1', subject: 'Webhook retries not firing', priority: 'Normal', status: 'Open', openedAt: '2026-11-08' },
+  { id: 't7', customerId: 'cu5', subject: 'Help importing contacts from spreadsheet', priority: 'Normal', status: 'Open', openedAt: '2026-11-05' },
+]
+
+export type SuccessStep = { id: string; customerId: string; title: string; dueAt: string; done: boolean; ownerId: string }
+
+export const successSteps: SuccessStep[] = [
+  { id: 'ss1', customerId: 'cu2', title: 'Quarterly business review', dueAt: '2026-11-12', done: false, ownerId: 'u1' },
+  { id: 'ss2', customerId: 'cu2', title: 'Send renewal proposal (same seats, 5% uplift)', dueAt: '2026-11-14', done: false, ownerId: 'u1' },
+  { id: 'ss3', customerId: 'cu2', title: 'Fix board performance ticket before QBR', dueAt: '2026-11-11', done: false, ownerId: 'u1' },
+  { id: 'ss4', customerId: 'cu2', title: 'Kickoff and admin training', dueAt: '2024-12-05', done: true, ownerId: 'u1' },
+  { id: 'ss5', customerId: 'cu2', title: 'Driver app pilot agreed', dueAt: '2026-10-20', done: true, ownerId: 'u1' },
+  { id: 'ss6', customerId: 'cu4', title: 'Executive call with Bagus about usage drop', dueAt: '2026-11-10', done: false, ownerId: 'u3' },
+  { id: 'ss7', customerId: 'cu4', title: 'Resolve SSO ticket', dueAt: '2026-11-09', done: false, ownerId: 'u3' },
+  { id: 'ss8', customerId: 'cu1', title: 'Expansion to 3 clinics: scope with Anindya', dueAt: '2026-11-20', done: false, ownerId: 'u3' },
+  { id: 'ss9', customerId: 'cu5', title: 'Import contacts and set up pipeline', dueAt: '2026-11-13', done: false, ownerId: 'u2' },
+  { id: 'ss10', customerId: 'cu5', title: 'Kickoff call', dueAt: '2026-09-05', done: true, ownerId: 'u2' },
+]
+
+export const usageTrend: Record<string, { week: string; active: number }[]> = {
+  cu1: [{ week: 'W40', active: 84 }, { week: 'W41', active: 86 }, { week: 'W42', active: 88 }, { week: 'W43', active: 90 }, { week: 'W44', active: 89 }, { week: 'W45', active: 91 }],
+  cu2: [{ week: 'W40', active: 80 }, { week: 'W41', active: 79 }, { week: 'W42', active: 81 }, { week: 'W43', active: 77 }, { week: 'W44', active: 78 }, { week: 'W45', active: 78 }],
+  cu3: [{ week: 'W40', active: 70 }, { week: 'W41', active: 74 }, { week: 'W42', active: 78 }, { week: 'W43', active: 80 }, { week: 'W44', active: 83 }, { week: 'W45', active: 85 }],
+  cu4: [{ week: 'W40', active: 48 }, { week: 'W41', active: 40 }, { week: 'W42', active: 31 }, { week: 'W43', active: 24 }, { week: 'W44', active: 15 }, { week: 'W45', active: 12 }],
+  cu5: [{ week: 'W40', active: 20 }, { week: 'W41', active: 33 }, { week: 'W42', active: 41 }, { week: 'W43', active: 52 }, { week: 'W44', active: 55 }, { week: 'W45', active: 60 }],
+  cu6: [{ week: 'W40', active: 66 }, { week: 'W41', active: 70 }, { week: 'W42', active: 75 }, { week: 'W43', active: 79 }, { week: 'W44', active: 81 }, { week: 'W45', active: 83 }],
+}
+
+export const customerById = (id: string | null | undefined) => customers.find((c) => c.id === id)
+export const customerByCompany = (companyId: string | null | undefined) => customers.find((c) => c.companyId === companyId)

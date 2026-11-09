@@ -9,6 +9,8 @@ import Contacts from './pages/Contacts'
 import ContactDetail from './pages/ContactDetail'
 import Companies from './pages/Companies'
 import CompanyDetail from './pages/CompanyDetail'
+import Customers from './pages/Customers'
+import CustomerDetail from './pages/CustomerDetail'
 import Activities from './pages/Activities'
 import Leads from './pages/Leads'
 import Pipeline from './pages/Pipeline'
@@ -29,6 +31,8 @@ export default function App() {
               <Route path="contacts/:id" element={<ContactDetail />} />
               <Route path="companies" element={<Companies />} />
               <Route path="companies/:id" element={<CompanyDetail />} />
+              <Route path="customers" element={<Customers />} />
+              <Route path="customers/:id" element={<CustomerDetail />} />
               <Route path="activities" element={<Activities />} />
               <Route path="leads" element={<Leads />} />
               <Route path="pipeline" element={<Pipeline />} />

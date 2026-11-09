@@ -41,3 +41,7 @@ Press `⌘K` anywhere to search contacts, companies and deals.
 One record model: a company is a prospect, a customer, a partner, or more than one of these at once. Leads, Customers and Partners are views over the same companies and contacts, not separate tables.
 
 Mantine components are used for everything interactive (tables, inputs, drawers, menus, tabs, charts); Tailwind handles layout and spacing.
+
+## Next step
+
+Every open deal, contact and company carries one line: what happens next, when, and who owns it (`src/components/NextStep.tsx`). It reads the earliest open task or upcoming meeting linked to the record. When there is none, the line turns amber with a Plan button. Moving a deal to a new stage, completing a task from a deal, or pressing Plan opens the "What's next?" prompt with stage-specific suggestions; the answer becomes a task linked to the deal.

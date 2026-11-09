@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router'
 import { activities, companyById, contactById, customerByCompany, deals, fullName, money, stageById } from '../data/mock'
 import { ContactAvatar, HealthDot, LifecycleBadge, OwnerAvatar, ScoreBar, longDate, relative, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
+import { NextStep } from '../components/NextStep'
 
 export default function ContactDetail() {
   const { id } = useParams()
@@ -42,6 +43,9 @@ export default function ContactDetail() {
                 </>
               )}
             </Text>
+            <div className="mt-2">
+              <NextStep contactId={c.id} />
+            </div>
             <Group gap="xs" mt={8}>
               {c.tags.map((t) => (
                 <Badge key={t} color="gray" variant="outline" styles={{ root: { borderColor: '#e3e8e6' } }}>

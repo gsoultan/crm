@@ -5,6 +5,7 @@ import { activities, companyById, contacts, customerByCompany, deals, fullName, 
 import { PartnerChip } from './Partners'
 import { ContactAvatar, HealthDot, LifecycleBadge, OwnerAvatar, Stat, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
+import { NextStep } from '../components/NextStep'
 import { CompanyMark } from './Companies'
 
 export default function CompanyDetail() {
@@ -36,6 +37,9 @@ export default function CompanyDetail() {
             <Text c="dimmed" size="sm" mt={2}>
               {co.industry} · {co.size} employees · {co.city}
             </Text>
+            <div className="mt-2">
+              <NextStep companyId={co.id} />
+            </div>
           </div>
         </Group>
         <Group gap="xs">

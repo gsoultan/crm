@@ -44,6 +44,7 @@ import {
 import { Link } from 'react-router'
 import { NOW, TODAY, activities, companyById, contactById, deals, dealById, fullName, owners, stageById, type Activity, type ActivityType, type TaskPriority } from '../data/mock'
 import { ContactAvatar, Field, OwnerAvatar, PageHeader, Stat, dateTime, shortDate } from '../components/ui'
+import { openWhatsNext } from '../components/NextStep'
 import { DataList } from '@mantine/core'
 
 const meta: Record<ActivityType, { icon: typeof IconMail; color: MantineColor; label: string }> = {
@@ -478,7 +479,7 @@ export default function Activities() {
                       {companyById(d.companyId)?.name} · {stageById(d.stageId).name} · {d.daysInStage}d in stage
                     </Text>
                   </div>
-                  <Button size="compact-xs" variant="light" onClick={() => { setLogType('task'); log.open() }}>
+                  <Button size="compact-xs" variant="light" onClick={() => openWhatsNext({ dealId: d.id, stageId: d.stageId, ownerId: d.ownerId })}>
                     Plan
                   </Button>
                 </div>
@@ -656,7 +657,7 @@ export default function Activities() {
                   Edit
                 </Button>
                 {active.type === 'task' && !active.done && (
-                  <Button size="xs" leftSection={<IconCheck size={14} />} onClick={() => { notifications.show({ message: 'Task completed', color: 'spruce' }); setActive(null) }}>
+                  <Button size="xs" leftSection={<IconCheck size={14} />} onClick={() => { const t = active; notifications.show({ message: 'Task completed', color: 'spruce' }); setActive(null); if (t.dealId) openWhatsNext({ reason: `"${t.subject}" is done. What happens next on this deal?`, stageId: dealById(t.dealId)?.stageId, dealId: t.dealId, ownerId: t.ownerId }) }}>
                     Complete
                   </Button>
                 )}

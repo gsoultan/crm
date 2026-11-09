@@ -461,3 +461,17 @@ export const partnerStats = (p: Partner) => {
     customers: sourcedCustomers.length,
   }
 }
+
+// Next step: the earliest open task or upcoming meeting linked to a deal, company or contact.
+export type NextStepState = 'planned' | 'today' | 'overdue' | 'none'
+export const nextStepFor = ({ dealId, companyId, contactId }: { dealId?: string; companyId?: string; contactId?: string }) => {
+  const linked = activities.filter((a) => (dealId ? a.dealId === dealId : companyId ? a.companyId === companyId : contactId ? a.contactId === contactId : false))
+  const candidates = linked.filter((a) => (a.type === 'task' && !a.done) || (a.type === 'meeting' && a.at > NOW))
+  const key = (a: Activity) => (a.type === 'task' ? `${a.dueAt}T23:59` : a.at)
+  return candidates.sort((a, b) => key(a).localeCompare(key(b)))[0]
+}
+export const nextStepState = (a: Activity | undefined): NextStepState => {
+  if (!a) return 'none'
+  const due = a.type === 'task' ? a.dueAt! : a.at.slice(0, 10)
+  return due < TODAY ? 'overdue' : due === TODAY ? 'today' : 'planned'
+}

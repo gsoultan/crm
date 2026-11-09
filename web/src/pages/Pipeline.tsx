@@ -8,6 +8,7 @@ import { activities, companyById, contactById, deals as seed, fullName, money, m
 import { PartnerChip } from './Partners'
 import { ContactAvatar, HealthDot, OwnerAvatar, PageHeader, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
+import { NextStep, openWhatsNext } from '../components/NextStep'
 
 function DealCard({ deal, onOpen, dragging }: { deal: Deal; onOpen?: () => void; dragging?: boolean }) {
   const co = companyById(deal.companyId)
@@ -26,6 +27,11 @@ function DealCard({ deal, onOpen, dragging }: { deal: Deal; onOpen?: () => void;
       <Text size="xs" c="dimmed" mt={2} truncate>
         {co?.name}
       </Text>
+      {stageById(deal.stageId).kind === 'open' && (
+        <div className="mt-2">
+          <NextStep dealId={deal.id} size="xs" onPlan={() => openWhatsNext({ dealId: deal.id, stageId: deal.stageId, ownerId: deal.ownerId })} />
+        </div>
+      )}
       <div className="mt-2.5 flex items-center justify-between">
         <Text size="sm" fw={600} className="tabular">
           {money(deal.amount)}
@@ -121,6 +127,7 @@ export default function Pipeline() {
       color: 'spruce',
       icon: stage.kind === 'won' ? <IconTrophy size={16} /> : undefined,
     })
+    if (stage.kind === 'open') openWhatsNext({ reason: `${deal.name} moved to ${stage.name}. What happens next?`, stageId: String(to), dealId: deal.id, ownerId: deal.ownerId })
   }
 
   return (
@@ -219,7 +226,16 @@ export default function Pipeline() {
       )}
 
       <Drawer opened={!!current} onClose={() => setParams({})} position="right" size="lg" title={current?.name} padding="lg">
-        {current && <DealPanel deal={current} onStage={(s) => setDeals((ds) => ds.map((d) => (d.id === current.id ? { ...d, stageId: s } : d)))} />}
+        {current && (
+          <DealPanel
+            deal={current}
+            onStage={(s) => {
+              setDeals((ds) => ds.map((d) => (d.id === current.id ? { ...d, stageId: s } : d)))
+              const st = stageById(s)
+              if (st.kind === 'open') openWhatsNext({ reason: `${current.name} moved to ${st.name}. What happens next?`, stageId: s, dealId: current.id, ownerId: current.ownerId })
+            }}
+          />
+        )}
       </Drawer>
     </>
   )
@@ -272,6 +288,10 @@ function DealPanel({ deal, onStage }: { deal: Deal; onStage: (s: string) => void
           <Stepper.Step key={s.id} label={s.name} />
         ))}
       </Stepper>
+
+      <div className="rounded-md border border-line bg-paper px-3 py-2.5">
+        <NextStep dealId={deal.id} onPlan={() => openWhatsNext({ dealId: deal.id, stageId: deal.stageId, ownerId: deal.ownerId })} />
+      </div>
 
       <DataList size="sm" labelWidth={110} gap={8}>
         <Field label="Company">

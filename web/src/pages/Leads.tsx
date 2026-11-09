@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Badge, Button, Group, Paper, Table, Text, Tabs, Drawer, DataList, Select, Stack, Divider, Progress, Tooltip, type MantineColor } from '@mantine/core'
 import { IconArrowRight, IconPlus, IconSparkles, IconUpload } from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
-import { leads, owners, type Lead } from '../data/mock'
+import { companyById, leads, owners, partnerById, referrals, type Lead } from '../data/mock'
+import { PartnerChip } from './Partners'
 import { ContactAvatar, OwnerAvatar, PageHeader, ScoreBar, relative, Field } from '../components/ui'
 
 const statusColor: Record<Lead['status'], MantineColor> = { New: 'amber', Contacted: 'blue', Qualified: 'spruce', Unqualified: 'gray' }
@@ -20,7 +21,7 @@ export default function Leads() {
     <>
       <PageHeader
         title="Leads"
-        subtitle="New leads land in the inbox. Qualify them, or convert them into a contact, company and deal in one step."
+        subtitle="Qualify, then convert: the lead becomes a contact, company and deal. Once they buy, the same company appears under Customers."
         actions={
           <>
             <Button variant="default" leftSection={<IconUpload size={16} />}>
@@ -87,7 +88,11 @@ export default function Leads() {
                     </Group>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm">{l.source}</Text>
+                    {referrals[l.id] ? (
+                      <PartnerChip partnerId={referrals[l.id]} />
+                    ) : (
+                      <Text size="sm">{l.source}</Text>
+                    )}
                   </Table.Td>
                   <Table.Td>
                     <ScoreBar score={l.score} />
@@ -176,7 +181,23 @@ export default function Leads() {
             </Paper>
 
             <DataList size="sm" labelWidth={90}>
-              <Field label="Source">{active.source}</Field>
+              <Field label="Source">
+                {referrals[active.id] ? (
+                  <Group gap={6}>
+                    <Text size="sm">Partner referral</Text>
+                    <PartnerChip partnerId={referrals[active.id]} size="xs" />
+                  </Group>
+                ) : (
+                  active.source
+                )}
+              </Field>
+              {referrals[active.id] && (
+                <Field label="Commission">
+                  <Text size="sm" c="dimmed">
+                    {partnerById(referrals[active.id])?.commissionRate}% of first-year order to {companyById(partnerById(referrals[active.id])!.companyId)?.name}
+                  </Text>
+                </Field>
+              )}
               <Field label="Arrived">{relative(active.createdAt)}</Field>
               <Field label="Owner">
                 <Select size="xs" w={180} data={owners.map((o) => ({ value: o.id, label: o.name }))} defaultValue={active.ownerId} placeholder="Unassigned" />

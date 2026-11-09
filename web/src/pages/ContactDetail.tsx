@@ -122,7 +122,7 @@ export default function ContactDetail() {
                 <Badge color={cu.health >= 70 ? 'spruce' : cu.health >= 40 ? 'amber' : 'red'}>Health {cu.health}</Badge>
               </Group>
               <Text size="xs" c="dimmed" mt={2}>
-                {cu.plan} · {cu.seats} seats · {money(cu.arr)} ARR · renews {shortDate(cu.renewalAt)}
+                {cu.tier} · {money(cu.revenue12m)} last 12 months · last order {shortDate(cu.lastOrderAt)}
               </Text>
             </Link>
           )}

@@ -4,7 +4,8 @@ import { Badge, Button, Drawer, Group, Paper, SegmentedControl, Select, Text, To
 import { IconCalendar, IconDots, IconPlus, IconTrophy, IconX, IconCurrencyDollar } from '@tabler/icons-react'
 import { Link, useSearchParams } from 'react-router'
 import { notifications } from '@mantine/notifications'
-import { activities, companyById, contactById, deals as seed, fullName, money, moneyShort, owners, stageById, stages, type Deal } from '../data/mock'
+import { activities, companyById, contactById, deals as seed, fullName, money, moneyShort, owners, referrals, stageById, stages, type Deal } from '../data/mock'
+import { PartnerChip } from './Partners'
 import { ContactAvatar, HealthDot, OwnerAvatar, PageHeader, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
 
@@ -292,6 +293,11 @@ function DealPanel({ deal, onStage }: { deal: Deal; onStage: (s: string) => void
           )}
         </Field>
         <Field label="Close date">{shortDate(deal.closeDate)}</Field>
+        {referrals[deal.id] && (
+          <Field label="Referred by">
+            <PartnerChip partnerId={referrals[deal.id]} />
+          </Field>
+        )}
         <Field label="Owner">
           <Group gap={6}>
             <OwnerAvatar id={deal.ownerId} size={20} />

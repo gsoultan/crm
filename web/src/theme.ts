@@ -67,7 +67,7 @@ export const theme = createTheme({
     Button: { defaultProps: { size: 'sm' }, styles: { root: { fontWeight: 500 } } },
     Badge: {
       defaultProps: { variant: 'light', radius: 'sm', size: 'sm' },
-      styles: { root: { textTransform: 'none', fontWeight: 500, letterSpacing: 0 } },
+      styles: { root: { textTransform: 'none', fontWeight: 500, letterSpacing: 0, overflow: 'visible', maxWidth: 'none' }, label: { overflow: 'visible', textOverflow: 'clip' } },
     },
     Table: {
       defaultProps: { verticalSpacing: 'sm', horizontalSpacing: 'md', highlightOnHover: true },

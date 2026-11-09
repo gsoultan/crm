@@ -17,6 +17,7 @@ import {
   IconColumns3,
   IconHelp,
   IconHeartHandshake,
+  IconAffiliate,
 } from '@tabler/icons-react'
 import { NavLink as RouterNavLink, Outlet, useNavigate } from 'react-router'
 import { companies, contacts, deals, fullName } from '../data/mock'
@@ -40,6 +41,7 @@ const nav: NavGroup[] = [
     items: [
       { label: 'Leads', to: '/leads', icon: IconTargetArrow, badge: 3 },
       { label: 'Pipeline', to: '/pipeline', icon: IconColumns3 },
+      { label: 'Partners', to: '/partners', icon: IconAffiliate },
       { label: 'Quotes', to: '/quotes', icon: IconFileDollar },
       { label: 'Forecast', to: '/forecast', icon: IconChartBar },
     ],
@@ -196,7 +198,7 @@ export default function Shell() {
               </Badge>
             </Group>
             <Text size="xs" c="dimmed">
-              4 tasks due · 2 renewals this month · 1 account at risk
+              4 tasks due · 2 reorders due · 1 invoice overdue
             </Text>
           </div>
         </div>

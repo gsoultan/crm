@@ -2,7 +2,7 @@ import { Button, Checkbox, Group, Paper, Text, Title, Anchor } from '@mantine/co
 import { BarChart } from '@mantine/charts'
 import { IconPlus, IconArrowRight } from '@tabler/icons-react'
 import { Link } from 'react-router'
-import { activities, companyById, contactById, customers, deals, fullName, leads, money, pipelineTrend, stageById, stages } from '../data/mock'
+import { activities, companyById, contactById, customers, daysUntil, deals, fullName, leads, money, nextOrderDue, pipelineTrend, stageById, stages } from '../data/mock'
 import { ContactAvatar, HealthDot, OwnerAvatar, PageHeader, Stat, relative, shortDate } from '../components/ui'
 import { ActivityIcon } from './Activities'
 
@@ -178,11 +178,11 @@ export default function Dashboard() {
           })}
         <Link to="/customers" className="rounded-lg border border-amber-signal/40 bg-amber-signal/5 px-4 py-3 hover:border-amber-signal">
           <Text size="xs" c="dimmed">
-            Renewals in 90 days
+            Customers due to reorder
           </Text>
-          <div className="tabular mt-0.5 text-lg font-semibold">{money(customers.filter((c) => c.renewalAt <= '2027-02-07').reduce((x, c) => x + c.arr, 0))}</div>
+          <div className="tabular mt-0.5 text-lg font-semibold">{customers.filter((c) => { const d = nextOrderDue(c); return d && daysUntil(d) <= 14 }).length}</div>
           <Text size="xs" c="dimmed">
-            {customers.filter((c) => c.renewalAt <= '2027-02-07').length} accounts · 1 at risk
+            {money(customers.reduce((x, c) => x + c.overdue, 0))} in overdue invoices
           </Text>
         </Link>
       </div>

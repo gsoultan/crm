@@ -140,7 +140,7 @@ export type Lead = {
   name: string
   company: string
   email: string
-  source: 'Web form' | 'Webinar' | 'Referral' | 'Import' | 'LinkedIn'
+  source: 'Web form' | 'Webinar' | 'Referral' | 'Partner' | 'Import' | 'LinkedIn'
   status: 'New' | 'Contacted' | 'Qualified' | 'Unqualified'
   score: number
   ownerId: string | null
@@ -152,12 +152,12 @@ export type Lead = {
 export const leads: Lead[] = [
   { id: 'l1', name: 'Marco Bellini', company: 'Bellini Studio', email: 'marco@bellini.studio', source: 'Web form', status: 'New', score: 41, ownerId: null, createdAt: '2026-11-09T08:12:00', fit: 20, engagement: 21 },
   { id: 'l2', name: 'Chloe Martin', company: 'Marin & Co Accounting', email: 'chloe@marinco.fr', source: 'Webinar', status: 'New', score: 63, ownerId: null, createdAt: '2026-11-09T07:40:00', fit: 35, engagement: 28 },
-  { id: 'l3', name: 'Arif Hidayat', company: 'Sentosa Logistics', email: 'arif@sentosa.id', source: 'Referral', status: 'Contacted', score: 78, ownerId: 'u3', createdAt: '2026-11-08T14:00:00', fit: 45, engagement: 33 },
-  { id: 'l4', name: 'Nadia Khoury', company: 'Cedar Clinics', email: 'nadia@cedarclinics.com', source: 'LinkedIn', status: 'Qualified', score: 84, ownerId: 'u3', createdAt: '2026-11-07T10:30:00', fit: 48, engagement: 36 },
+  { id: 'l3', name: 'Arif Hidayat', company: 'Sentosa Logistics', email: 'arif@sentosa.id', source: 'Partner', status: 'Contacted', score: 78, ownerId: 'u3', createdAt: '2026-11-08T14:00:00', fit: 45, engagement: 33 },
+  { id: 'l4', name: 'Nadia Khoury', company: 'Cedar Clinics', email: 'nadia@cedarclinics.com', source: 'Partner', status: 'Qualified', score: 84, ownerId: 'u3', createdAt: '2026-11-07T10:30:00', fit: 48, engagement: 36 },
   { id: 'l5', name: 'Owen Price', company: 'Price Fabrication', email: 'owen@pricefab.co.uk', source: 'Import', status: 'Contacted', score: 29, ownerId: 'u1', createdAt: '2026-11-06T09:00:00', fit: 15, engagement: 14 },
-  { id: 'l6', name: 'Yuki Sato', company: 'Sato Dental Group', email: 'yuki@satodental.jp', source: 'Web form', status: 'New', score: 57, ownerId: null, createdAt: '2026-11-08T22:15:00', fit: 30, engagement: 27 },
+  { id: 'l6', name: 'Yuki Sato', company: 'Sato Dental Group', email: 'yuki@satodental.jp', source: 'Partner', status: 'New', score: 57, ownerId: null, createdAt: '2026-11-08T22:15:00', fit: 30, engagement: 27 },
   { id: 'l7', name: 'Liam Doyle', company: 'Doyle Property Partners', email: 'liam@doylepp.ie', source: 'Webinar', status: 'Unqualified', score: 18, ownerId: 'u4', createdAt: '2026-11-05T12:00:00', fit: 10, engagement: 8 },
-  { id: 'l8', name: 'Fatima Al-Sayed', company: 'Gulf Harbor Trading', email: 'fatima@gulfharbor.ae', source: 'Referral', status: 'Qualified', score: 81, ownerId: 'u2', createdAt: '2026-11-04T16:45:00', fit: 46, engagement: 35 },
+  { id: 'l8', name: 'Fatima Al-Sayed', company: 'Gulf Harbor Trading', email: 'fatima@gulfharbor.ae', source: 'Partner', status: 'Qualified', score: 81, ownerId: 'u2', createdAt: '2026-11-04T16:45:00', fit: 46, engagement: 35 },
 ]
 
 export type Product = { id: string; sku: string; name: string; unitPrice: number; unit: string }
@@ -252,69 +252,180 @@ export const quoteTotals = (q: Quote) => {
   return { subtotal, tax, total: subtotal + tax }
 }
 
-// ---- Existing customers (post-sale) ----
+// ---- Existing customers (B2B account management) ----
 
 export type Customer = {
   id: string
   companyId: string
-  plan: 'Starter' | 'Team' | 'Business' | 'Enterprise'
-  seats: number
-  arr: number
-  startedAt: string
-  renewalAt: string
-  csmId: string
-  health: number // 0-100
+  tier: 'Key account' | 'Regular' | 'Occasional'
+  stage: 'New account' | 'Repeat buyer' | 'Growing' | 'Dormant' | 'At risk'
+  firstOrderAt: string
+  lastOrderAt: string
+  orderEveryDays: number // typical gap between orders
+  revenue12m: number
+  revenuePrev12m: number
+  lifetimeRevenue: number
+  openOrders: number
+  outstanding: number // unpaid invoices
+  overdue: number // of which past due
+  creditLimit: number
+  paymentTerms: 'Net 14' | 'Net 30' | 'Net 60' | 'Prepaid'
+  accountManagerId: string
+  health: number
   trend: 'up' | 'flat' | 'down'
-  usage: number // % of seats active last 30 days
-  nps: number | null
-  openTickets: number
-  stage: 'Onboarding' | 'Adopting' | 'Established' | 'Renewal due' | 'At risk'
+  productLines: string[] // what they buy today
 }
 
+export const productLines = ['Platform licences', 'Implementation', 'Training', 'Priority support', 'API add-on', 'Custom reports']
+
 export const customers: Customer[] = [
-  { id: 'cu1', companyId: 'c3', plan: 'Business', seats: 160, arr: 86400, startedAt: '2025-01-15', renewalAt: '2027-01-15', csmId: 'u3', health: 88, trend: 'up', usage: 91, nps: 9, openTickets: 1, stage: 'Established' },
-  { id: 'cu2', companyId: 'c1', plan: 'Business', seats: 85, arr: 45900, startedAt: '2024-11-28', renewalAt: '2026-11-28', csmId: 'u1', health: 74, trend: 'flat', usage: 78, nps: 8, openTickets: 2, stage: 'Renewal due' },
-  { id: 'cu3', companyId: 'c8', plan: 'Team', seats: 40, arr: 21600, startedAt: '2025-12-01', renewalAt: '2026-12-01', csmId: 'u4', health: 81, trend: 'up', usage: 85, nps: 9, openTickets: 0, stage: 'Renewal due' },
-  { id: 'cu4', companyId: 'c6', plan: 'Team', seats: 30, arr: 16200, startedAt: '2025-10-21', renewalAt: '2026-10-21', csmId: 'u3', health: 22, trend: 'down', usage: 12, nps: 4, openTickets: 3, stage: 'At risk' },
-  { id: 'cu5', companyId: 'c7', plan: 'Starter', seats: 15, arr: 8100, startedAt: '2026-09-02', renewalAt: '2027-09-02', csmId: 'u2', health: 63, trend: 'flat', usage: 60, nps: null, openTickets: 1, stage: 'Onboarding' },
-  { id: 'cu6', companyId: 'c2', plan: 'Starter', seats: 12, arr: 6480, startedAt: '2026-06-10', renewalAt: '2027-06-10', csmId: 'u2', health: 70, trend: 'up', usage: 83, nps: 7, openTickets: 0, stage: 'Adopting' },
+  { id: 'cu1', companyId: 'c3', tier: 'Key account', stage: 'Growing', firstOrderAt: '2025-01-15', lastOrderAt: '2026-10-15', orderEveryDays: 45, revenue12m: 214000, revenuePrev12m: 158000, lifetimeRevenue: 412000, openOrders: 1, outstanding: 36000, overdue: 0, creditLimit: 150000, paymentTerms: 'Net 30', accountManagerId: 'u3', health: 88, trend: 'up', productLines: ['Platform licences', 'Implementation', 'Training', 'Priority support'] },
+  { id: 'cu2', companyId: 'c1', tier: 'Key account', stage: 'Repeat buyer', firstOrderAt: '2024-11-28', lastOrderAt: '2026-10-28', orderEveryDays: 60, revenue12m: 168000, revenuePrev12m: 171000, lifetimeRevenue: 396000, openOrders: 2, outstanding: 44000, overdue: 0, creditLimit: 120000, paymentTerms: 'Net 30', accountManagerId: 'u1', health: 74, trend: 'flat', productLines: ['Platform licences', 'Implementation', 'Priority support'] },
+  { id: 'cu3', companyId: 'c8', tier: 'Regular', stage: 'Growing', firstOrderAt: '2025-12-01', lastOrderAt: '2026-11-02', orderEveryDays: 50, revenue12m: 96000, revenuePrev12m: 0, lifetimeRevenue: 96000, openOrders: 1, outstanding: 22000, overdue: 0, creditLimit: 80000, paymentTerms: 'Net 30', accountManagerId: 'u4', health: 81, trend: 'up', productLines: ['Platform licences', 'Training'] },
+  { id: 'cu4', companyId: 'c6', tier: 'Regular', stage: 'At risk', firstOrderAt: '2025-10-21', lastOrderAt: '2026-06-18', orderEveryDays: 60, revenue12m: 38000, revenuePrev12m: 71000, lifetimeRevenue: 109000, openOrders: 0, outstanding: 18500, overdue: 18500, creditLimit: 40000, paymentTerms: 'Net 30', accountManagerId: 'u3', health: 22, trend: 'down', productLines: ['Platform licences'] },
+  { id: 'cu5', companyId: 'c7', tier: 'Occasional', stage: 'New account', firstOrderAt: '2026-09-02', lastOrderAt: '2026-09-02', orderEveryDays: 0, revenue12m: 14500, revenuePrev12m: 0, lifetimeRevenue: 14500, openOrders: 1, outstanding: 0, overdue: 0, creditLimit: 25000, paymentTerms: 'Prepaid', accountManagerId: 'u2', health: 63, trend: 'flat', productLines: ['Platform licences', 'Implementation'] },
+  { id: 'cu6', companyId: 'c2', tier: 'Occasional', stage: 'Dormant', firstOrderAt: '2025-06-10', lastOrderAt: '2026-07-09', orderEveryDays: 75, revenue12m: 12800, revenuePrev12m: 19200, lifetimeRevenue: 32000, openOrders: 0, outstanding: 0, overdue: 0, creditLimit: 25000, paymentTerms: 'Net 14', accountManagerId: 'u2', health: 51, trend: 'down', productLines: ['Platform licences'] },
 ]
 
-export type Ticket = { id: string; customerId: string; subject: string; priority: 'Low' | 'Normal' | 'High'; status: 'Open' | 'Waiting on customer' | 'Resolved'; openedAt: string }
+export type Order = { id: string; number: string; customerId: string; date: string; amount: number; status: 'Quoted' | 'Confirmed' | 'Delivered' | 'Invoiced' | 'Paid'; items: string }
 
-export const tickets: Ticket[] = [
-  { id: 't1', customerId: 'cu4', subject: 'Login fails for SSO users', priority: 'High', status: 'Open', openedAt: '2026-11-06' },
-  { id: 't2', customerId: 'cu4', subject: 'Export to Excel missing columns', priority: 'Normal', status: 'Waiting on customer', openedAt: '2026-11-03' },
-  { id: 't3', customerId: 'cu4', subject: 'Request: Bahasa Indonesia UI', priority: 'Low', status: 'Open', openedAt: '2026-10-28' },
-  { id: 't4', customerId: 'cu2', subject: 'Slow pipeline board with 400+ deals', priority: 'High', status: 'Open', openedAt: '2026-11-07' },
-  { id: 't5', customerId: 'cu2', subject: 'Add two more admin seats', priority: 'Normal', status: 'Resolved', openedAt: '2026-11-01' },
-  { id: 't6', customerId: 'cu1', subject: 'Webhook retries not firing', priority: 'Normal', status: 'Open', openedAt: '2026-11-08' },
-  { id: 't7', customerId: 'cu5', subject: 'Help importing contacts from spreadsheet', priority: 'Normal', status: 'Open', openedAt: '2026-11-05' },
+export const orders: Order[] = [
+  { id: 'o1', number: 'SO-2026-118', customerId: 'cu2', date: '2026-10-28', amount: 44000, status: 'Invoiced', items: '85 licences, 12-month renewal' },
+  { id: 'o2', number: 'SO-2026-121', customerId: 'cu2', date: '2026-11-05', amount: 24000, status: 'Confirmed', items: 'Driver app add-on pilot, 40 users' },
+  { id: 'o3', number: 'SO-2026-097', customerId: 'cu2', date: '2026-08-30', amount: 36000, status: 'Paid', items: 'Implementation, Rotterdam hub' },
+  { id: 'o4', number: 'SO-2026-071', customerId: 'cu2', date: '2026-06-24', amount: 28000, status: 'Paid', items: 'Priority support, 12 months' },
+  { id: 'o5', number: 'SO-2026-052', customerId: 'cu2', date: '2026-04-20', amount: 36000, status: 'Paid', items: '70 licences, 12-month' },
+  { id: 'o6', number: 'SO-2026-112', customerId: 'cu1', date: '2026-10-15', amount: 36000, status: 'Invoiced', items: 'Pharmacy module, 2 clinics' },
+  { id: 'o7', number: 'SO-2026-088', customerId: 'cu1', date: '2026-08-02', amount: 86400, status: 'Paid', items: '160 licences, 12-month renewal' },
+  { id: 'o8', number: 'SO-2026-066', customerId: 'cu1', date: '2026-06-10', amount: 42000, status: 'Paid', items: 'Implementation, 3 clinics' },
+  { id: 'o9', number: 'SO-2026-044', customerId: 'cu1', date: '2026-04-01', amount: 24000, status: 'Paid', items: 'Training, 4 sessions' },
+  { id: 'o10', number: 'SO-2026-040', customerId: 'cu4', date: '2026-06-18', amount: 18500, status: 'Invoiced', items: '30 licences, 6-month' },
+  { id: 'o11', number: 'SO-2026-009', customerId: 'cu4', date: '2026-01-14', amount: 19500, status: 'Paid', items: '30 licences, 6-month' },
+  { id: 'o12', number: 'SO-2026-120', customerId: 'cu3', date: '2026-11-02', amount: 22000, status: 'Invoiced', items: 'Training and 10 extra licences' },
+  { id: 'o13', number: 'SO-2026-101', customerId: 'cu5', date: '2026-09-02', amount: 14500, status: 'Delivered', items: '15 licences and implementation' },
+  { id: 'o14', number: 'SO-2026-079', customerId: 'cu6', date: '2026-07-09', amount: 6400, status: 'Paid', items: '12 licences, 6-month' },
+]
+
+export type Invoice = { id: string; number: string; customerId: string; orderId: string; issuedAt: string; dueAt: string; amount: number; status: 'Paid' | 'Open' | 'Overdue' }
+
+export const invoices: Invoice[] = [
+  { id: 'i1', number: 'INV-2026-301', customerId: 'cu2', orderId: 'o1', issuedAt: '2026-10-29', dueAt: '2026-11-28', amount: 44000, status: 'Open' },
+  { id: 'i2', number: 'INV-2026-262', customerId: 'cu2', orderId: 'o3', issuedAt: '2026-09-01', dueAt: '2026-10-01', amount: 36000, status: 'Paid' },
+  { id: 'i3', number: 'INV-2026-230', customerId: 'cu2', orderId: 'o4', issuedAt: '2026-06-25', dueAt: '2026-07-25', amount: 28000, status: 'Paid' },
+  { id: 'i4', number: 'INV-2026-296', customerId: 'cu1', orderId: 'o6', issuedAt: '2026-10-16', dueAt: '2026-11-15', amount: 36000, status: 'Open' },
+  { id: 'i5', number: 'INV-2026-251', customerId: 'cu1', orderId: 'o7', issuedAt: '2026-08-03', dueAt: '2026-09-02', amount: 86400, status: 'Paid' },
+  { id: 'i6', number: 'INV-2026-224', customerId: 'cu4', orderId: 'o10', issuedAt: '2026-06-19', dueAt: '2026-07-19', amount: 18500, status: 'Overdue' },
+  { id: 'i7', number: 'INV-2026-305', customerId: 'cu3', orderId: 'o12', issuedAt: '2026-11-03', dueAt: '2026-12-03', amount: 22000, status: 'Open' },
+]
+
+export type Agreement = { id: string; customerId: string; name: string; terms: string; validUntil: string }
+
+export const agreements: Agreement[] = [
+  { id: 'ag1', customerId: 'cu2', name: 'Framework agreement 2025–2026', terms: '12% off list on licences, Net 30, quarterly review', validUntil: '2026-12-31' },
+  { id: 'ag2', customerId: 'cu2', name: 'Support SLA', terms: '4-hour response, named engineer', validUntil: '2027-06-24' },
+  { id: 'ag3', customerId: 'cu1', name: 'Volume price list', terms: '15% off list above 150 licences', validUntil: '2027-08-01' },
+  { id: 'ag4', customerId: 'cu4', name: 'Standard terms', terms: 'List price, Net 30', validUntil: '2026-12-31' },
 ]
 
 export type SuccessStep = { id: string; customerId: string; title: string; dueAt: string; done: boolean; ownerId: string }
 
 export const successSteps: SuccessStep[] = [
-  { id: 'ss1', customerId: 'cu2', title: 'Quarterly business review', dueAt: '2026-11-12', done: false, ownerId: 'u1' },
-  { id: 'ss2', customerId: 'cu2', title: 'Send renewal proposal (same seats, 5% uplift)', dueAt: '2026-11-14', done: false, ownerId: 'u1' },
-  { id: 'ss3', customerId: 'cu2', title: 'Fix board performance ticket before QBR', dueAt: '2026-11-11', done: false, ownerId: 'u1' },
+  { id: 'ss1', customerId: 'cu2', title: 'Quarterly business review with Sofie', dueAt: '2026-11-12', done: false, ownerId: 'u1' },
+  { id: 'ss2', customerId: 'cu2', title: 'Renew framework agreement before 31 Dec', dueAt: '2026-11-30', done: false, ownerId: 'u1' },
+  { id: 'ss3', customerId: 'cu2', title: 'Propose training package (not bought yet)', dueAt: '2026-11-20', done: false, ownerId: 'u1' },
   { id: 'ss4', customerId: 'cu2', title: 'Kickoff and admin training', dueAt: '2024-12-05', done: true, ownerId: 'u1' },
   { id: 'ss5', customerId: 'cu2', title: 'Driver app pilot agreed', dueAt: '2026-10-20', done: true, ownerId: 'u1' },
-  { id: 'ss6', customerId: 'cu4', title: 'Executive call with Bagus about usage drop', dueAt: '2026-11-10', done: false, ownerId: 'u3' },
-  { id: 'ss7', customerId: 'cu4', title: 'Resolve SSO ticket', dueAt: '2026-11-09', done: false, ownerId: 'u3' },
-  { id: 'ss8', customerId: 'cu1', title: 'Expansion to 3 clinics: scope with Anindya', dueAt: '2026-11-20', done: false, ownerId: 'u3' },
-  { id: 'ss9', customerId: 'cu5', title: 'Import contacts and set up pipeline', dueAt: '2026-11-13', done: false, ownerId: 'u2' },
+  { id: 'ss6', customerId: 'cu4', title: 'Call Bagus about the overdue invoice', dueAt: '2026-11-10', done: false, ownerId: 'u3' },
+  { id: 'ss7', customerId: 'cu4', title: 'Find out why no reorder since June', dueAt: '2026-11-09', done: false, ownerId: 'u3' },
+  { id: 'ss8', customerId: 'cu1', title: 'Scope expansion to 3 more clinics with Anindya', dueAt: '2026-11-20', done: false, ownerId: 'u3' },
+  { id: 'ss9', customerId: 'cu5', title: 'Delivery sign-off and first invoice', dueAt: '2026-11-13', done: false, ownerId: 'u2' },
   { id: 'ss10', customerId: 'cu5', title: 'Kickoff call', dueAt: '2026-09-05', done: true, ownerId: 'u2' },
 ]
 
-export const usageTrend: Record<string, { week: string; active: number }[]> = {
-  cu1: [{ week: 'W40', active: 84 }, { week: 'W41', active: 86 }, { week: 'W42', active: 88 }, { week: 'W43', active: 90 }, { week: 'W44', active: 89 }, { week: 'W45', active: 91 }],
-  cu2: [{ week: 'W40', active: 80 }, { week: 'W41', active: 79 }, { week: 'W42', active: 81 }, { week: 'W43', active: 77 }, { week: 'W44', active: 78 }, { week: 'W45', active: 78 }],
-  cu3: [{ week: 'W40', active: 70 }, { week: 'W41', active: 74 }, { week: 'W42', active: 78 }, { week: 'W43', active: 80 }, { week: 'W44', active: 83 }, { week: 'W45', active: 85 }],
-  cu4: [{ week: 'W40', active: 48 }, { week: 'W41', active: 40 }, { week: 'W42', active: 31 }, { week: 'W43', active: 24 }, { week: 'W44', active: 15 }, { week: 'W45', active: 12 }],
-  cu5: [{ week: 'W40', active: 20 }, { week: 'W41', active: 33 }, { week: 'W42', active: 41 }, { week: 'W43', active: 52 }, { week: 'W44', active: 55 }, { week: 'W45', active: 60 }],
-  cu6: [{ week: 'W40', active: 66 }, { week: 'W41', active: 70 }, { week: 'W42', active: 75 }, { week: 'W43', active: 79 }, { week: 'W44', active: 81 }, { week: 'W45', active: 83 }],
+export const revenueByMonth: Record<string, { month: string; revenue: number }[]> = {
+  cu1: [{ month: 'Dec', revenue: 0 }, { month: 'Jan', revenue: 0 }, { month: 'Feb', revenue: 12000 }, { month: 'Mar', revenue: 0 }, { month: 'Apr', revenue: 24000 }, { month: 'May', revenue: 0 }, { month: 'Jun', revenue: 42000 }, { month: 'Jul', revenue: 0 }, { month: 'Aug', revenue: 86400 }, { month: 'Sep', revenue: 0 }, { month: 'Oct', revenue: 36000 }, { month: 'Nov', revenue: 0 }],
+  cu2: [{ month: 'Dec', revenue: 0 }, { month: 'Jan', revenue: 0 }, { month: 'Feb', revenue: 0 }, { month: 'Mar', revenue: 0 }, { month: 'Apr', revenue: 36000 }, { month: 'May', revenue: 0 }, { month: 'Jun', revenue: 28000 }, { month: 'Jul', revenue: 0 }, { month: 'Aug', revenue: 36000 }, { month: 'Sep', revenue: 0 }, { month: 'Oct', revenue: 44000 }, { month: 'Nov', revenue: 24000 }],
+  cu3: [{ month: 'Dec', revenue: 21600 }, { month: 'Jan', revenue: 0 }, { month: 'Feb', revenue: 0 }, { month: 'Mar', revenue: 18000 }, { month: 'Apr', revenue: 0 }, { month: 'May', revenue: 12400 }, { month: 'Jun', revenue: 0 }, { month: 'Jul', revenue: 22000 }, { month: 'Aug', revenue: 0 }, { month: 'Sep', revenue: 0 }, { month: 'Oct', revenue: 0 }, { month: 'Nov', revenue: 22000 }],
+  cu4: [{ month: 'Dec', revenue: 0 }, { month: 'Jan', revenue: 19500 }, { month: 'Feb', revenue: 0 }, { month: 'Mar', revenue: 0 }, { month: 'Apr', revenue: 0 }, { month: 'May', revenue: 0 }, { month: 'Jun', revenue: 18500 }, { month: 'Jul', revenue: 0 }, { month: 'Aug', revenue: 0 }, { month: 'Sep', revenue: 0 }, { month: 'Oct', revenue: 0 }, { month: 'Nov', revenue: 0 }],
+  cu5: [{ month: 'Dec', revenue: 0 }, { month: 'Jan', revenue: 0 }, { month: 'Feb', revenue: 0 }, { month: 'Mar', revenue: 0 }, { month: 'Apr', revenue: 0 }, { month: 'May', revenue: 0 }, { month: 'Jun', revenue: 0 }, { month: 'Jul', revenue: 0 }, { month: 'Aug', revenue: 0 }, { month: 'Sep', revenue: 14500 }, { month: 'Oct', revenue: 0 }, { month: 'Nov', revenue: 0 }],
+  cu6: [{ month: 'Dec', revenue: 0 }, { month: 'Jan', revenue: 6400 }, { month: 'Feb', revenue: 0 }, { month: 'Mar', revenue: 0 }, { month: 'Apr', revenue: 0 }, { month: 'May', revenue: 0 }, { month: 'Jun', revenue: 0 }, { month: 'Jul', revenue: 6400 }, { month: 'Aug', revenue: 0 }, { month: 'Sep', revenue: 0 }, { month: 'Oct', revenue: 0 }, { month: 'Nov', revenue: 0 }],
 }
 
 export const customerById = (id: string | null | undefined) => customers.find((c) => c.id === id)
 export const customerByCompany = (companyId: string | null | undefined) => customers.find((c) => c.companyId === companyId)
+export const daysSince = (iso: string) => Math.round((new Date('2026-11-09').getTime() - new Date(iso).getTime()) / 86400000)
+export const daysUntil = (iso: string) => -daysSince(iso)
+/** Expected next order date from the usual gap; null for first-time buyers. */
+export const nextOrderDue = (c: Customer) => (c.orderEveryDays ? new Date(new Date(c.lastOrderAt).getTime() + c.orderEveryDays * 86400000).toISOString().slice(0, 10) : null)
+
+// ---- Partners (referral and reseller) ----
+
+export type Partner = {
+  id: string
+  companyId: string
+  kind: 'Referral' | 'Reseller' | 'Consultant'
+  tier: 'Gold' | 'Silver' | 'Bronze'
+  commissionRate: number // % of first-year order value
+  since: string
+  managerId: string
+  status: 'Active' | 'Onboarding' | 'Inactive'
+  agreementUntil: string
+  commissionPaid: number
+  commissionOwed: number
+}
+
+export const partnerCompanies: Company[] = [
+  { id: 'pc1', name: 'Meridian Advisory', domain: 'meridianadvisory.com', industry: 'Consulting', size: '10–50', city: 'Singapore', ownerId: 'u2', openDeals: 0, pipelineValue: 0, lastActivity: '2026-11-07' },
+  { id: 'pc2', name: 'Cloudbase Systems', domain: 'cloudbase.id', industry: 'IT services', size: '50–200', city: 'Jakarta', ownerId: 'u3', openDeals: 0, pipelineValue: 0, lastActivity: '2026-11-08' },
+  { id: 'pc3', name: 'Harbor & Vale', domain: 'harborvale.com', industry: 'Professional services', size: '50–200', city: 'Lisbon', ownerId: 'u2', openDeals: 1, pipelineValue: 24000, lastActivity: '2026-11-07' },
+]
+companies.push(partnerCompanies[0], partnerCompanies[1])
+
+export const partners: Partner[] = [
+  { id: 'pt1', companyId: 'pc2', kind: 'Reseller', tier: 'Gold', commissionRate: 15, since: '2025-03-01', managerId: 'u3', status: 'Active', agreementUntil: '2027-02-28', commissionPaid: 18600, commissionOwed: 5400 },
+  { id: 'pt2', companyId: 'pc1', kind: 'Referral', tier: 'Silver', commissionRate: 10, since: '2025-09-15', managerId: 'u2', status: 'Active', agreementUntil: '2026-12-31', commissionPaid: 6200, commissionOwed: 2400 },
+  { id: 'pt3', companyId: 'c2', kind: 'Consultant', tier: 'Bronze', commissionRate: 8, since: '2026-08-01', managerId: 'u2', status: 'Onboarding', agreementUntil: '2027-07-31', commissionPaid: 0, commissionOwed: 0 },
+]
+
+export const partnerContacts: Contact[] = [
+  { id: 'pp1', firstName: 'Reza', lastName: 'Wibowo', title: 'Partnerships Lead', email: 'reza@cloudbase.id', phone: '+62 21 555 0190', companyId: 'pc2', lifecycle: 'Customer', ownerId: 'u3', tags: ['Partner'], score: 0, lastActivity: '2026-11-08', consent: 'Opted in' },
+  { id: 'pp2', firstName: 'Clara', lastName: 'Lim', title: 'Managing Director', email: 'clara@meridianadvisory.com', phone: '+65 6555 0181', companyId: 'pc1', lifecycle: 'Customer', ownerId: 'u2', tags: ['Partner'], score: 0, lastActivity: '2026-11-07', consent: 'Opted in' },
+]
+contacts.push(...partnerContacts)
+
+/** Which partner referred a lead, deal or customer. */
+export const referrals: Record<string, string> = {
+  // leads
+  l3: 'pt1', // Arif Hidayat, Sentosa Logistics
+  l4: 'pt2', // Nadia Khoury, Cedar Clinics
+  l8: 'pt2', // Fatima Al-Sayed
+  l6: 'pt1', // Yuki Sato
+  // deals
+  d3: 'pt1', // Clinic network expansion (Kinara)
+  d9: 'pt1',
+  d13: 'pt1', // Pharmacy module, won
+  d6: 'pt2', // Campus-wide licence (Pinecrest)
+  d5: 'pt2',
+  // customers (companies) originally sourced by a partner
+  c3: 'pt1',
+  c7: 'pt2',
+}
+
+export const partnerById = (id: string | null | undefined) => partners.find((p) => p.id === id)
+export const referrerOf = (recordId: string) => partnerById(referrals[recordId])
+export const partnerStats = (p: Partner) => {
+  const leadIds = leads.filter((l) => referrals[l.id] === p.id).map((l) => l.id)
+  const myDeals = deals.filter((d) => referrals[d.id] === p.id)
+  const won = myDeals.filter((d) => d.stageId === 's5')
+  const open = myDeals.filter((d) => stageById(d.stageId).kind === 'open')
+  const sourcedCustomers = customers.filter((c) => referrals[c.companyId] === p.id)
+  return {
+    leads: leadIds.length,
+    openDeals: open.length,
+    openValue: open.reduce((s, d) => s + d.amount, 0),
+    wonDeals: won.length,
+    wonValue: won.reduce((s, d) => s + d.amount, 0),
+    sourcedRevenue12m: sourcedCustomers.reduce((s, c) => s + c.revenue12m, 0),
+    customers: sourcedCustomers.length,
+  }
+}

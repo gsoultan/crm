@@ -1,7 +1,8 @@
-import { Anchor, Breadcrumbs, Button, DataList, Group, Paper, Tabs, Text, Title, Table } from '@mantine/core'
-import { IconHeartHandshake, IconPlus, IconWorld } from '@tabler/icons-react'
+import { Anchor, Badge, Breadcrumbs, Button, DataList, Group, Paper, Tabs, Text, Title, Table } from '@mantine/core'
+import { IconAffiliate, IconHeartHandshake, IconPlus, IconWorld } from '@tabler/icons-react'
 import { Link, useParams } from 'react-router'
-import { activities, companyById, contacts, customerByCompany, deals, fullName, money, stageById } from '../data/mock'
+import { activities, companyById, contacts, customerByCompany, deals, fullName, money, partners, referrals, stageById } from '../data/mock'
+import { PartnerChip } from './Partners'
 import { ContactAvatar, HealthDot, LifecycleBadge, OwnerAvatar, Stat, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
 import { CompanyMark } from './Companies'
@@ -16,6 +17,7 @@ export default function CompanyDetail() {
   const won = myDeals.filter((d) => d.stageId === 's5')
   const items = activities.filter((a) => a.companyId === co.id)
   const cu = customerByCompany(co.id)
+  const asPartner = partners.find((p) => p.companyId === co.id)
 
   return (
     <>
@@ -40,6 +42,11 @@ export default function CompanyDetail() {
           <Button variant="default" leftSection={<IconWorld size={16} />} component="a" href={`https://${co.domain}`} target="_blank">
             {co.domain}
           </Button>
+          {asPartner && (
+            <Button variant="light" color="grape" leftSection={<IconAffiliate size={16} />} component={Link} to={`/partners/${asPartner.id}`}>
+              Partner record
+            </Button>
+          )}
           {cu && (
             <Button variant="light" leftSection={<IconHeartHandshake size={16} />} component={Link} to={`/customers/${cu.id}`}>
               Customer record
@@ -74,6 +81,18 @@ export default function CompanyDetail() {
               <Field label="Owner">
                 <OwnerAvatar id={co.ownerId} size={20} />
               </Field>
+              <Field label="Relationship">
+                <Group gap={4}>
+                  {cu && <Badge color="spruce">Customer</Badge>}
+                  {asPartner && <Badge color="grape">Partner</Badge>}
+                  {!cu && !asPartner && <Badge color="gray">Prospect</Badge>}
+                </Group>
+              </Field>
+              {referrals[co.id] && (
+                <Field label="Introduced by">
+                  <PartnerChip partnerId={referrals[co.id]} size="xs" />
+                </Field>
+              )}
             </DataList>
           </Paper>
 

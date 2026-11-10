@@ -6,6 +6,8 @@ import { notifications } from '@mantine/notifications'
 import { activities, agreements, companyById, contacts, customerById, daysSince, daysUntil, deals, fullName, invoices, money, moneyShort, nextOrderDue, orders, owners, productLines, revenueByMonth, stageById, successSteps } from '../data/mock'
 import { ContactAvatar, Field, LifecycleBadge, OwnerAvatar, Stat, longDate, shortDate } from '../components/ui'
 import { Timeline } from './Activities'
+import { NewInquiryDrawer } from '../components/NewInquiry'
+import { useState } from 'react'
 import { CompanyMark } from './Companies'
 import { Delta, HealthRing, stageColor, Trend } from './Customers'
 
@@ -25,6 +27,7 @@ export default function CustomerDetail() {
   const myAgreements = agreements.filter((a) => a.customerId === cu.id)
   const expansions = deals.filter((d) => d.companyId === co.id && stageById(d.stageId).kind === 'open')
   const items = activities.filter((a) => a.companyId === co.id)
+  const [inquiryOpen, setInquiryOpen] = useState(false)
   const manager = owners.find((o) => o.id === cu.accountManagerId)
   const next = nextOrderDue(cu)
   const nextDays = next ? daysUntil(next) : null
@@ -35,6 +38,7 @@ export default function CustomerDetail() {
 
   return (
     <>
+      <NewInquiryDrawer key={co.id} opened={inquiryOpen} onClose={() => setInquiryOpen(false)} companyId={co.id} />
       <Breadcrumbs mb="md" separatorMargin={6}>
         <Anchor component={Link} to="/customers" size="sm">
           Customers
@@ -347,8 +351,8 @@ export default function CustomerDetail() {
                   <Text size="sm" c="dimmed">
                     {expansions.length ? 'Open opportunities on this account, from the shared pipeline.' : 'No open opportunities on this account.'}
                   </Text>
-                  <Button variant="light" size="xs" leftSection={<IconPlus size={14} />}>
-                    New opportunity
+                  <Button variant="light" size="xs" leftSection={<IconPlus size={14} />} onClick={() => setInquiryOpen(true)}>
+                    New inquiry
                   </Button>
                 </div>
               </Paper>

@@ -9,6 +9,7 @@ import { PartnerChip } from './Partners'
 import { ContactAvatar, HealthDot, OwnerAvatar, PageHeader, shortDate, longDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
 import { NextStep, openWhatsNext } from '../components/NextStep'
+import { NewInquiryDrawer } from '../components/NewInquiry'
 
 export function KindBadge({ deal, size = 'xs' }: { deal: Deal; size?: 'xs' | 'sm' }) {
   const customer = dealKind(deal) === 'Customer'
@@ -140,6 +141,7 @@ export default function Pipeline() {
   const [owner, setOwner] = useState<string | null>(null)
   const [mode, setMode] = useState('board')
   const [kind, setKind] = useState('all')
+  const [inquiryOpen, setInquiryOpen] = useState(false)
   const open = params.get('deal')
   const current = deals.find((d) => d.id === open) ?? null
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
@@ -199,7 +201,7 @@ export default function Pipeline() {
                 { value: 'table', label: 'Table' },
               ]}
             />
-            <Button leftSection={<IconPlus size={16} />}>New inquiry</Button>
+            <Button leftSection={<IconPlus size={16} />} onClick={() => setInquiryOpen(true)}>New inquiry</Button>
           </>
         }
       />
@@ -276,6 +278,8 @@ export default function Pipeline() {
           </Table.ScrollContainer>
         </Paper>
       )}
+
+      <NewInquiryDrawer opened={inquiryOpen} onClose={() => setInquiryOpen(false)} />
 
       <Drawer opened={!!current} onClose={() => setParams({})} position="right" size="lg" title={current?.name} padding="lg">
         {current && (

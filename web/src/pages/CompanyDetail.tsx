@@ -6,6 +6,8 @@ import { PartnerChip } from './Partners'
 import { ContactAvatar, HealthDot, LifecycleBadge, OwnerAvatar, Stat, shortDate, Field } from '../components/ui'
 import { Timeline } from './Activities'
 import { NextStep } from '../components/NextStep'
+import { NewInquiryDrawer } from '../components/NewInquiry'
+import { useState } from 'react'
 import { CompanyMark } from './Companies'
 
 export default function CompanyDetail() {
@@ -19,9 +21,11 @@ export default function CompanyDetail() {
   const items = activities.filter((a) => a.companyId === co.id)
   const cu = customerByCompany(co.id)
   const asPartner = partners.find((p) => p.companyId === co.id)
+  const [inquiryOpen, setInquiryOpen] = useState(false)
 
   return (
     <>
+      <NewInquiryDrawer key={co.id} opened={inquiryOpen} onClose={() => setInquiryOpen(false)} companyId={co.id} />
       <Breadcrumbs mb="md" separatorMargin={6}>
         <Anchor component={Link} to="/companies" size="sm">
           Companies
@@ -56,7 +60,7 @@ export default function CompanyDetail() {
               Customer record
             </Button>
           )}
-          <Button leftSection={<IconPlus size={16} />}>New opportunity</Button>
+          <Button leftSection={<IconPlus size={16} />} onClick={() => setInquiryOpen(true)}>New inquiry</Button>
         </Group>
       </div>
 

@@ -345,10 +345,10 @@ export default function CustomerDetail() {
                 ))}
                 <div className="flex items-center justify-between px-4 py-3">
                   <Text size="sm" c="dimmed">
-                    {expansions.length ? 'Open deals on this account, from the sales pipeline.' : 'No open deals on this account.'}
+                    {expansions.length ? 'Open opportunities on this account, from the shared pipeline.' : 'No open opportunities on this account.'}
                   </Text>
                   <Button variant="light" size="xs" leftSection={<IconPlus size={14} />}>
-                    New deal
+                    New opportunity
                   </Button>
                 </div>
               </Paper>

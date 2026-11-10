@@ -45,3 +45,7 @@ Mantine components are used for everything interactive (tables, inputs, drawers,
 ## Next step
 
 Every open deal, contact and company carries one line: what happens next, when, and who owns it (`src/components/NextStep.tsx`). It reads the earliest open task or upcoming meeting linked to the record. When there is none, the line turns amber with a Plan button. Moving a deal to a new stage, completing a task from a deal, or pressing Plan opens the "What's next?" prompt with stage-specific suggestions; the answer becomes a task linked to the deal.
+
+## Pipeline
+
+One pipeline for every chance to get an order, whether it comes from a converted lead, an existing customer or a partner referral. Stages are product-sales stages: Inquiry → Quote sent → Negotiating → Order confirmed (or Lost with a reason). The card tag says what kind of opportunity it is (New account, Customer, via Partner); the stages never change. Leads are the inbox before the pipeline; converting a lead creates an Inquiry. Customers' requests and reorders are opened as Inquiries directly.

@@ -28,6 +28,8 @@ export const companies: Company[] = [
   { id: 'c5', name: 'Oakline Property', domain: 'oakline.com.au', industry: 'Real estate', size: '10–50', city: 'Melbourne', ownerId: 'u4', openDeals: 1, pipelineValue: 12500, lastActivity: '2026-11-02' },
   { id: 'c6', name: 'Terra Agro Group', domain: 'terraagro.com', industry: 'Agriculture', size: '1000+', city: 'Surabaya', ownerId: 'u3', openDeals: 0, pipelineValue: 0, lastActivity: '2026-10-21' },
   { id: 'c7', name: 'Pinecrest Schools', domain: 'pinecrest.edu', industry: 'Education', size: '200–500', city: 'Auckland', ownerId: 'u2', openDeals: 1, pipelineValue: 31000, lastActivity: '2026-11-06' },
+  { id: 'c9', name: 'Cedar Clinics', domain: 'cedarclinics.com', industry: 'Healthcare', size: '50–200', city: 'Dubai', ownerId: 'u3', openDeals: 1, pipelineValue: 34000, lastActivity: '2026-11-07' },
+  { id: 'c10', name: 'Alder Fintech', domain: 'alder.finance', industry: 'Financial services', size: '50–200', city: 'Sydney', ownerId: 'u4', openDeals: 1, pipelineValue: 27000, lastActivity: '2026-11-06' },
   { id: 'c8', name: 'Solstice Energy', domain: 'solstice.energy', industry: 'Energy', size: '50–200', city: 'Perth', ownerId: 'u4', openDeals: 2, pipelineValue: 97000, lastActivity: '2026-11-08' },
 ]
 
@@ -61,6 +63,8 @@ export const contacts: Contact[] = [
   { id: 'p9', firstName: 'Priya', lastName: 'Nair', title: 'Sustainability Lead', email: 'priya@solstice.energy', phone: '+61 8 5550 1109', companyId: 'c8', lifecycle: 'Qualified', ownerId: 'u4', tags: [], score: 61, lastActivity: '2026-11-05', consent: 'Opted in' },
   { id: 'p10', firstName: 'Marco', lastName: 'Bellini', title: 'Founder', email: 'marco@bellini.studio', phone: '+39 02 555 0150', companyId: null, lifecycle: 'Lead', ownerId: 'u2', tags: ['Inbound'], score: 41, lastActivity: '2026-11-03', consent: 'Opted in' },
   { id: 'p11', firstName: 'Dewi', lastName: 'Lestari', title: 'Finance Manager', email: 'dewi@kinarahealth.id', phone: '+62 21 555 0129', companyId: 'c3', lifecycle: 'Customer', ownerId: 'u3', tags: [], score: 55, lastActivity: '2026-11-01', consent: 'Opted in' },
+  { id: 'p13', firstName: 'Nadia', lastName: 'Khoury', title: 'COO', email: 'nadia@cedarclinics.com', phone: '+971 4 555 0170', companyId: 'c9', lifecycle: 'Qualified', ownerId: 'u3', tags: ['Decision maker'], score: 84, lastActivity: '2026-11-07', consent: 'Opted in' },
+  { id: 'p14', firstName: 'Ethan', lastName: 'Cole', title: 'Head of Sales Ops', email: 'ethan@alder.finance', phone: '+61 2 5550 1133', companyId: 'c10', lifecycle: 'Qualified', ownerId: 'u4', tags: [], score: 71, lastActivity: '2026-11-06', consent: 'Opted in' },
   { id: 'p12', firstName: 'Jonas', lastName: 'Eriksen', title: 'Logistics Coordinator', email: 'jonas@northwind.co', phone: '+31 10 555 0148', companyId: 'c1', lifecycle: 'Customer', ownerId: 'u1', tags: [], score: 48, lastActivity: '2026-10-30', consent: 'Not asked' },
 ]
 
@@ -98,9 +102,9 @@ export const activities: Activity[] = [
   { id: 'a18', type: 'email', subject: 'Commission statement for October', body: 'Sent the October statement: $2,400 owed on Pinecrest and Oakline.', at: '2026-11-09T10:20:00', emailStatus: 'Sent', contactId: 'pp2', companyId: 'pc1', ownerId: 'u2' },
   { id: 'a2', type: 'email', subject: 'Sent revised proposal v2', body: 'Attached updated SOW and pricing for the Rotterdam hub.', at: '2026-11-08T16:10:00', emailStatus: 'Opened', contactId: 'p1', companyId: 'c1', dealId: 'd1', ownerId: 'u1', nextStep: 'Follow up Wednesday if no reply' },
   { id: 'a3', type: 'call', subject: 'Discovery call with Tom', body: 'Budget confirmed for FY27. Needs board sign-off in December.', at: '2026-11-08T11:00:00', durationMin: 28, outcome: 'Connected', contactId: 'p8', companyId: 'c8', dealId: 'd7', ownerId: 'u4', nextStep: 'Share reference customer in energy' },
-  { id: 'a4', type: 'stage', subject: 'Moved to Proposal', at: '2026-11-07T15:40:00', fromStage: 'Discovery', toStage: 'Proposal', companyId: 'c2', dealId: 'd2', ownerId: 'u2' },
+  { id: 'a4', type: 'stage', subject: 'Quote sent', at: '2026-11-07T15:40:00', fromStage: 'Inquiry', toStage: 'Quote sent', companyId: 'c2', dealId: 'd2', ownerId: 'u2' },
   { id: 'a5', type: 'note', subject: 'Competitor mentioned', body: 'Rui said they are also looking at a local vendor. Price-sensitive but values support.', at: '2026-11-07T14:20:00', contactId: 'p2', companyId: 'c2', dealId: 'd2', ownerId: 'u2' },
-  { id: 'a23', type: 'stage', subject: 'Moved to Negotiation', at: '2026-11-06T17:30:00', fromStage: 'Proposal', toStage: 'Negotiation', companyId: 'c1', dealId: 'd1', ownerId: 'u1' },
+  { id: 'a23', type: 'stage', subject: 'Moved to Negotiating', at: '2026-11-06T17:30:00', fromStage: 'Quote sent', toStage: 'Negotiating', companyId: 'c1', dealId: 'd1', ownerId: 'u1' },
   { id: 'a10', type: 'email', subject: 'Intro from Hana', body: 'Hana introduced us to the board chair. Meeting requested for late November.', at: '2026-11-06T08:50:00', emailStatus: 'Replied', contactId: 'p7', companyId: 'c7', dealId: 'd6', ownerId: 'u2' },
   { id: 'a11', type: 'call', subject: 'Left voicemail', at: '2026-11-05T17:05:00', outcome: 'Voicemail', contactId: 'p9', companyId: 'c8', dealId: 'd11', ownerId: 'u4' },
   { id: 'a24', type: 'call', subject: 'Tried Wei about the site visit', at: '2026-11-05T10:10:00', outcome: 'No answer', contactId: 'p4', companyId: 'c4', dealId: 'd4', ownerId: 'u1' },
@@ -128,14 +132,13 @@ export const TODAY = '2026-11-09'
 export const NOW = '2026-11-09T12:00:00'
 export const activityById = (id: string | null | undefined) => activities.find((a) => a.id === id)
 
-export type Stage = { id: string; name: string; probability: number; kind: 'open' | 'won' | 'lost' }
+export type Stage = { id: string; name: string; probability: number; kind: 'open' | 'won' | 'lost'; hint: string }
 
 export const stages: Stage[] = [
-  { id: 's1', name: 'Qualified', probability: 20, kind: 'open' },
-  { id: 's2', name: 'Discovery', probability: 40, kind: 'open' },
-  { id: 's3', name: 'Proposal', probability: 60, kind: 'open' },
-  { id: 's4', name: 'Negotiation', probability: 80, kind: 'open' },
-  { id: 's5', name: 'Won', probability: 100, kind: 'won' },
+  { id: 's1', name: 'Inquiry', probability: 20, kind: 'open', hint: 'Asked for products or pricing. Converted leads and customer requests both start here.' },
+  { id: 's2', name: 'Quote sent', probability: 50, kind: 'open', hint: 'A quote is with the buyer. Follow up until they decide.' },
+  { id: 's3', name: 'Negotiating', probability: 75, kind: 'open', hint: 'Price, quantity, terms or delivery being agreed. Revise the quote here.' },
+  { id: 's5', name: 'Order confirmed', probability: 100, kind: 'won', hint: 'PO received. The order is created and the company shows under Customers.' },
 ]
 
 export type Deal = {
@@ -152,17 +155,19 @@ export type Deal = {
 }
 
 export const deals: Deal[] = [
-  { id: 'd1', name: 'Rotterdam hub rollout', companyId: 'c1', contactId: 'p1', amount: 62000, stageId: 's4', closeDate: '2026-11-28', ownerId: 'u1', daysInStage: 6, health: 'on track' },
-  { id: 'd8', name: 'Driver app add-on', companyId: 'c1', contactId: 'p12', amount: 24000, stageId: 's2', closeDate: '2026-12-19', ownerId: 'u1', daysInStage: 12, health: 'on track' },
-  { id: 'd2', name: 'Advisory team seats', companyId: 'c2', contactId: 'p2', amount: 24000, stageId: 's3', closeDate: '2026-12-05', ownerId: 'u2', daysInStage: 2, health: 'at risk' },
-  { id: 'd3', name: 'Clinic network expansion', companyId: 'c3', contactId: 'p3', amount: 98000, stageId: 's4', closeDate: '2026-11-21', ownerId: 'u3', daysInStage: 9, health: 'on track' },
-  { id: 'd9', name: 'Patient intake forms', companyId: 'c3', contactId: 'p11', amount: 26000, stageId: 's1', closeDate: '2027-01-15', ownerId: 'u3', daysInStage: 4, health: 'on track' },
-  { id: 'd10', name: 'Finance integration', companyId: 'c3', contactId: 'p11', amount: 18000, stageId: 's2', closeDate: '2027-01-30', ownerId: 'u3', daysInStage: 21, health: 'stalled' },
+  { id: 'd1', name: 'Rotterdam hub rollout', companyId: 'c1', contactId: 'p1', amount: 62000, stageId: 's3', closeDate: '2026-11-28', ownerId: 'u1', daysInStage: 6, health: 'on track' },
+  { id: 'd8', name: 'Driver app add-on', companyId: 'c1', contactId: 'p12', amount: 24000, stageId: 's1', closeDate: '2026-12-19', ownerId: 'u1', daysInStage: 12, health: 'on track' },
+  { id: 'd2', name: 'Advisory team seats', companyId: 'c2', contactId: 'p2', amount: 24000, stageId: 's2', closeDate: '2026-12-05', ownerId: 'u2', daysInStage: 2, health: 'at risk' },
+  { id: 'd3', name: 'Clinic network expansion', companyId: 'c3', contactId: 'p3', amount: 98000, stageId: 's3', closeDate: '2026-11-21', ownerId: 'u3', daysInStage: 9, health: 'on track' },
+  { id: 'd9', name: 'Patient intake forms', companyId: 'c3', contactId: 'p11', amount: 26000, stageId: 's2', closeDate: '2027-01-15', ownerId: 'u3', daysInStage: 4, health: 'on track' },
+  { id: 'd10', name: 'Finance integration', companyId: 'c3', contactId: 'p11', amount: 18000, stageId: 's1', closeDate: '2027-01-30', ownerId: 'u3', daysInStage: 21, health: 'stalled' },
   { id: 'd4', name: 'Plant maintenance pilot', companyId: 'c4', contactId: 'p4', amount: 58000, stageId: 's2', closeDate: '2026-12-12', ownerId: 'u1', daysInStage: 18, health: 'stalled' },
   { id: 'd5', name: 'Agent onboarding', companyId: 'c5', contactId: 'p5', amount: 12500, stageId: 's1', closeDate: '2026-12-20', ownerId: 'u4', daysInStage: 7, health: 'on track' },
-  { id: 'd6', name: 'Campus-wide licence', companyId: 'c7', contactId: 'p7', amount: 31000, stageId: 's3', closeDate: '2026-12-15', ownerId: 'u2', daysInStage: 5, health: 'on track' },
-  { id: 'd7', name: 'FY27 platform agreement', companyId: 'c8', contactId: 'p8', amount: 75000, stageId: 's3', closeDate: '2026-12-22', ownerId: 'u4', daysInStage: 3, health: 'on track' },
+  { id: 'd6', name: 'Campus-wide licence', companyId: 'c7', contactId: 'p7', amount: 31000, stageId: 's2', closeDate: '2026-12-15', ownerId: 'u2', daysInStage: 5, health: 'on track' },
+  { id: 'd7', name: 'FY27 platform agreement', companyId: 'c8', contactId: 'p8', amount: 75000, stageId: 's2', closeDate: '2026-12-22', ownerId: 'u4', daysInStage: 3, health: 'on track' },
   { id: 'd11', name: 'Reporting module', companyId: 'c8', contactId: 'p9', amount: 22000, stageId: 's1', closeDate: '2027-02-10', ownerId: 'u4', daysInStage: 10, health: 'at risk' },
+  { id: 'd14', name: 'Clinic rollout, 6 sites', companyId: 'c9', contactId: 'p13', amount: 34000, stageId: 's1', closeDate: '2027-01-20', ownerId: 'u3', daysInStage: 2, health: 'on track' },
+  { id: 'd15', name: 'Sales ops platform', companyId: 'c10', contactId: 'p14', amount: 27000, stageId: 's2', closeDate: '2026-12-18', ownerId: 'u4', daysInStage: 5, health: 'on track' },
   { id: 'd12', name: 'Q3 fleet telematics', companyId: 'c1', contactId: 'p1', amount: 44000, stageId: 's5', closeDate: '2026-10-28', ownerId: 'u1', daysInStage: 12, health: 'on track' },
   { id: 'd13', name: 'Pharmacy module', companyId: 'c3', contactId: 'p3', amount: 36000, stageId: 's5', closeDate: '2026-10-15', ownerId: 'u3', daysInStage: 25, health: 'on track' },
 ]
@@ -438,6 +443,8 @@ export const referrals: Record<string, string> = {
   d13: 'pt1', // Pharmacy module, won
   d6: 'pt2', // Campus-wide licence (Pinecrest)
   d5: 'pt2',
+  d14: 'pt2', // Cedar Clinics rollout, from Nadia's lead
+  c9: 'pt2',
   // customers (companies) originally sourced by a partner
   c3: 'pt1',
   c7: 'pt2',
@@ -475,3 +482,8 @@ export const nextStepState = (a: Activity | undefined): NextStepState => {
   const due = a.type === 'task' ? a.dueAt! : a.at.slice(0, 10)
   return due < TODAY ? 'overdue' : due === TODAY ? 'today' : 'planned'
 }
+
+// A deal is an expansion when the company already buys from us; otherwise it is new business.
+export type DealKind = 'New account' | 'Customer'
+export const dealKind = (d: Deal): DealKind => (customerByCompany(d.companyId) ? 'Customer' : 'New account')
+export const lostReasons = ['Price too high', 'Chose a competitor', 'No budget this year', 'Went quiet', 'Timing', 'Other'] as const

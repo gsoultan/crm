@@ -24,7 +24,7 @@ export default function Forecast() {
     <>
       <PageHeader
         title="Forecast"
-        subtitle="Q4 2026 · Commit is deals in Negotiation or later. Best case adds Proposal."
+        subtitle="Q4 2026 · Commit is opportunities in Negotiating. Best case adds Quote sent."
         actions={
           <>
             <Select data={['Q4 2026', 'Q3 2026']} defaultValue="Q4 2026" w={130} />
@@ -37,7 +37,7 @@ export default function Forecast() {
         <Stat label="Won" value={money(won)} hint={`${Math.round((won / quota) * 100)}% of ${moneyShort(quota)} quota`} tone="good" />
         <Stat label="Commit" value={money(won + commit)} hint={`Won + ${moneyShort(commit)} in Negotiation`} />
         <Stat label="Best case" value={money(won + bestCase)} hint={`Adds ${moneyShort(bestCase - commit)} in Proposal`} />
-        <Stat label="Gap to quota" value={money(Math.max(quota - won - commit, 0))} hint="After commit · needs 2 more Proposal deals" tone="warn" />
+        <Stat label="Gap to quota" value={money(Math.max(quota - won - commit, 0))} hint="After commit · needs 2 more quotes to land" tone="warn" />
       </div>
 
       <Paper p="lg" mt="md">

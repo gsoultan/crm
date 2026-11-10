@@ -41,7 +41,7 @@ export default function Partners() {
 
       <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Leads from partners" value={String(totals.leads)} hint={`${Math.round((totals.leads / 8) * 100)}% of all leads this month`} />
-        <Stat label="Partner-sourced pipeline" value={money(totals.open)} hint="Open deals referred by a partner" />
+        <Stat label="Partner-sourced pipeline" value={money(totals.open)} hint="Open opportunities referred by a partner" />
         <Stat label="Partner-sourced revenue" value={money(totals.sourced)} hint="Last 12 months, from customers a partner introduced" tone="good" />
         <Stat label="Commission owed" value={money(totals.owed)} hint="Pay out after invoices are settled" tone={totals.owed ? 'warn' : undefined} />
       </div>

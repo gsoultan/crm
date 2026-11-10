@@ -32,7 +32,7 @@ export default function Dashboard() {
       />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Stat label="Open pipeline" value={money(openValue)} hint={`${open.length} deals · ${money(weighted)} weighted`} />
+        <Stat label="Open pipeline" value={money(openValue)} hint={`${open.length} opportunities · ${money(weighted)} weighted`} />
         <Stat label="Won this month" value={money(wonThisMonth)} hint="Quota $170k · 47% there" tone="warn" />
         <Stat label="Closing this month" value={String(closingSoon.length)} hint={`${money(closingSoon.reduce((s, d) => s + d.amount, 0))} across them`} />
         <Stat label="Leads waiting" value={String(newLeads)} hint="Oldest has waited 2 days" tone="bad" />
@@ -159,7 +159,7 @@ export default function Dashboard() {
         </Paper>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5">
+      <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
         {stages
           .filter((s) => s.kind === 'open')
           .map((s) => {
@@ -171,7 +171,7 @@ export default function Dashboard() {
                 </Text>
                 <div className="tabular mt-0.5 text-lg font-semibold">{money(inStage.reduce((x, d) => x + d.amount, 0))}</div>
                 <Text size="xs" c="dimmed">
-                  {inStage.length} deals · {s.probability}% likely
+                  {inStage.length} opportunities · {s.probability}% likely
                 </Text>
               </Link>
             )

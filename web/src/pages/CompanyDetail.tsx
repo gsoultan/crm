@@ -56,7 +56,7 @@ export default function CompanyDetail() {
               Customer record
             </Button>
           )}
-          <Button leftSection={<IconPlus size={16} />}>New deal</Button>
+          <Button leftSection={<IconPlus size={16} />}>New opportunity</Button>
         </Group>
       </div>
 
@@ -130,7 +130,7 @@ export default function CompanyDetail() {
 
         <Tabs defaultValue="deals">
           <Tabs.List mb="md">
-            <Tabs.Tab value="deals">Deals · {myDeals.length}</Tabs.Tab>
+            <Tabs.Tab value="deals">Opportunities · {myDeals.length}</Tabs.Tab>
             <Tabs.Tab value="timeline">Timeline · {items.length}</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="deals">

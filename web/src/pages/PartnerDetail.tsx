@@ -86,7 +86,7 @@ export default function PartnerDetail() {
         <Tabs defaultValue="leads">
           <Tabs.List mb="md">
             <Tabs.Tab value="leads">Leads · {myLeads.length}</Tabs.Tab>
-            <Tabs.Tab value="deals">Deals · {myDeals.length}</Tabs.Tab>
+            <Tabs.Tab value="deals">Opportunities · {myDeals.length}</Tabs.Tab>
             <Tabs.Tab value="customers">Customers · {myCustomers.length}</Tabs.Tab>
           </Tabs.List>
 
@@ -148,7 +148,7 @@ export default function PartnerDetail() {
               })}
               {myDeals.length === 0 && (
                 <Text size="sm" c="dimmed" ta="center" py="xl">
-                  No deals from this partner yet.
+                  No opportunities from this partner yet.
                 </Text>
               )}
             </Paper>

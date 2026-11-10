@@ -99,7 +99,7 @@ export default function Shell() {
       id: d.id,
       label: d.name,
       description: companies.find((c) => c.id === d.companyId)?.name,
-      group: 'Deals',
+      group: 'Opportunities',
       leftSection: <IconColumns3 size={18} stroke={1.5} />,
       onClick: () => navigate(`/pipeline?deal=${d.id}`),
     })),
@@ -135,7 +135,7 @@ export default function Shell() {
             className="hidden h-8 w-full max-w-[420px] items-center gap-2 rounded-md border border-line bg-paper px-2.5 text-[13.5px] text-muted hover:border-gray-300 sm:flex"
           >
             <IconSearch size={16} stroke={1.75} />
-            <span className="flex-1 text-left">Search contacts, companies, deals</span>
+            <span className="flex-1 text-left">Search contacts, companies, opportunities</span>
             <Kbd size="xs">⌘K</Kbd>
           </UnstyledButton>
 
@@ -212,10 +212,10 @@ export default function Shell() {
 
       <Spotlight
         actions={actions}
-        nothingFound="Nothing matches. Try a name, company or deal."
+        nothingFound="Nothing matches. Try a name, company or opportunity."
         highlightQuery
         limit={8}
-        searchProps={{ leftSection: <IconSearch size={18} stroke={1.5} />, placeholder: 'Search contacts, companies, deals' }}
+        searchProps={{ leftSection: <IconSearch size={18} stroke={1.5} />, placeholder: 'Search contacts, companies, opportunities' }}
       />
     </AppShell>
   )

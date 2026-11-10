@@ -134,7 +134,7 @@ export default function ContactDetail() {
           <Paper p="md">
             <Group justify="space-between" mb="sm">
               <Text fw={600} size="sm">
-                Deals · {myDeals.length}
+                Opportunities · {myDeals.length}
               </Text>
               <Button variant="subtle" size="compact-xs" leftSection={<IconPlus size={12} />}>
                 New
@@ -156,7 +156,7 @@ export default function ContactDetail() {
               ))}
               {myDeals.length === 0 && (
                 <Text size="sm" c="dimmed">
-                  No deals yet. Start one when there is something to sell.
+                  No opportunities yet. Start one when there is something to sell.
                 </Text>
               )}
             </div>

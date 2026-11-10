@@ -92,10 +92,9 @@ export function NextStep({
 }
 
 const suggestionsByStage: Record<string, string[]> = {
-  s1: ['Book a discovery call', 'Send intro deck', 'Qualify budget and timeline'],
-  s2: ['Schedule a demo', 'Map the buying committee', 'Send discovery summary'],
-  s3: ['Send the proposal', 'Follow up on the proposal in 3 days', 'Book a proposal walkthrough'],
-  s4: ['Schedule the decision call', 'Send revised terms', 'Confirm signatory and start date'],
+  s1: ['Call to confirm quantities and delivery date', 'Send catalogue and price list', 'Check stock and lead time'],
+  s2: ['Follow up on the quote in 3 days', 'Offer a sample', 'Ask for the decision date'],
+  s3: ['Send the revised quote', 'Agree payment terms and delivery', 'Ask for the PO'],
   done: ['Send a recap email', 'Book the next meeting', 'Check in next week'],
 }
 
@@ -108,7 +107,7 @@ const dueOptions = [
 
 function WhatsNextForm({ reason, stageId, dealId, ownerId, onDone }: { reason: string; stageId?: string; dealId?: string; ownerId?: string; onDone: () => void }) {
   const [text, setText] = useState('')
-  const [due, setDue] = useState<string | null>(stageId === 's4' ? '2026-11-10' : '2026-11-12')
+  const [due, setDue] = useState<string | null>(stageId === 's3' ? '2026-11-10' : '2026-11-12')
   const [who, setWho] = useState<string | null>(ownerId ?? 'u1')
   const suggestions = suggestionsByStage[stageId ?? 'done'] ?? suggestionsByStage.done
   return (

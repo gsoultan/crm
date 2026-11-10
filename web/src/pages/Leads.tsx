@@ -21,7 +21,7 @@ export default function Leads() {
     <>
       <PageHeader
         title="Leads"
-        subtitle="Qualify, then convert: the lead becomes a contact, company and deal. Once they buy, the same company appears under Customers."
+        subtitle="The inbox before the pipeline. Qualify, then convert: the lead becomes a contact, a company and an Inquiry on the pipeline. Once they order, the company appears under Customers."
         actions={
           <>
             <Button variant="default" leftSection={<IconUpload size={16} />}>
@@ -206,7 +206,7 @@ export default function Leads() {
 
             <Divider label="Convert" labelPosition="left" />
             <Text size="sm" c="dimmed">
-              Converting creates a contact, a company if one does not exist, and a deal in the Qualified stage.
+              Converting creates a contact, a company if one does not exist, and an Inquiry on the pipeline, the same board customers' requests go to.
             </Text>
             <Select label="Company" data={[active.company, 'Match to an existing company']} defaultValue={active.company} />
             <Select label="Pipeline" data={['Sales pipeline']} defaultValue="Sales pipeline" />
@@ -214,8 +214,8 @@ export default function Leads() {
               <Button variant="subtle" color="gray" onClick={() => { setActive(null); notifications.show({ message: `${active.name} marked unqualified`, color: 'gray' }) }}>
                 Mark unqualified
               </Button>
-              <Button rightSection={<IconArrowRight size={14} />} onClick={() => { setActive(null); notifications.show({ title: 'Lead converted', message: `${active.name} is now a contact with a deal in Qualified.`, color: 'spruce' }) }}>
-                Convert to deal
+              <Button rightSection={<IconArrowRight size={14} />} onClick={() => { setActive(null); notifications.show({ title: 'Lead converted', message: `${active.name} is now a contact with an Inquiry on the pipeline.`, color: 'spruce' }) }}>
+                Convert to inquiry
               </Button>
             </Group>
           </Stack>
